@@ -15,18 +15,21 @@ Item {
   property var recentToplevels: []
   property int selectedIndex: 0
 
-  readonly property int itemWidth: Style.space(116)
-  readonly property int itemHeight: Style.space(142)
-  readonly property int itemSpacing: Style.spacing.md
+  readonly property int itemWidth: Style.space(146)
+  readonly property int itemHeight: Style.space(154)
+  readonly property int itemSpacing: Style.spacing.sm
   readonly property int itemStep: itemWidth + itemSpacing
   readonly property int cardPadding: Style.spacing.panelPadding
-  readonly property int gridColumns: Math.min(6, Math.max(1, apps.length))
+  readonly property int cardHeaderHeight: Style.space(58)
+  readonly property int cardFooterHeight: Style.space(42)
+  readonly property int availableGridWidth: Math.max(itemWidth, panel.width - Style.space(64) - cardPadding * 2)
+  readonly property int gridColumns: Math.min(6, Math.max(1, apps.length), Math.max(1, Math.floor((availableGridWidth + itemSpacing) / itemStep)))
   readonly property int gridRows: Math.max(1, Math.ceil(apps.length / gridColumns))
   readonly property int gridWidth: gridColumns * itemWidth + Math.max(0, gridColumns - 1) * itemSpacing
   readonly property int gridHeight: gridRows * itemHeight + Math.max(0, gridRows - 1) * itemSpacing
-  readonly property int cardWidth: Math.max(Style.space(210), gridWidth + cardPadding * 2)
-  readonly property int cardHeight: gridHeight + cardPadding * 2
-  readonly property int cornerRadius: Math.max(Style.cornerRadius, Style.space(22))
+  readonly property int cardWidth: Math.max(Style.space(280), gridWidth + cardPadding * 2)
+  readonly property int cardHeight: gridHeight + cardPadding * 2 + cardHeaderHeight + cardFooterHeight
+  readonly property int cornerRadius: Math.max(Style.cornerRadius, Style.space(18))
 
   function normalizedAppId(value) {
     var id = String(value || "").trim().toLowerCase()
@@ -244,14 +247,20 @@ Item {
 
     Rectangle {
       anchors.fill: parent
-      color: Util.alpha(Color.menu.scrim, 0.34)
+      color: Util.alpha(Color.menu.scrim, 0.48)
       opacity: root.opened ? 1 : 0
       Behavior on opacity { NumberAnimation { duration: 130; easing.type: Easing.OutCubic } }
     }
 
     MouseArea {
       anchors.fill: parent
-      onClicked: root.dismiss(false)
+      preventStealing: true
+      propagateComposedEvents: false
+      onPressed: function(mouse) { mouse.accepted = true }
+      onReleased: function(mouse) {
+        mouse.accepted = true
+        root.dismiss(false)
+      }
     }
 
     BorderSurface {
@@ -260,15 +269,21 @@ Item {
       width: Math.min(root.cardWidth, panel.width - Style.space(64))
       height: root.cardHeight
       radius: root.cornerRadius
-      color: Util.alpha(Color.menu.background, 0.86)
-      borderSpec: Border.surfaceSpec("menu", "border", Util.alpha(Color.menu.border, 0.58), Math.max(1, Style.spacing.hairline))
+      color: Util.alpha(Color.menu.background, 0.96)
+      borderSpec: Border.surfaceSpec("menu", "border", Util.alpha(Color.menu.border, 0.82), Math.max(1, Style.spacing.hairline))
       opacity: root.opened ? 1 : 0
       scale: root.opened ? 1 : 0.97
 
       Behavior on opacity { NumberAnimation { duration: 145; easing.type: Easing.OutCubic } }
       Behavior on scale { NumberAnimation { duration: 165; easing.type: Easing.OutBack } }
 
-      MouseArea { anchors.fill: parent; onClicked: function(mouse) { mouse.accepted = true } }
+      MouseArea {
+        anchors.fill: parent
+        preventStealing: true
+        propagateComposedEvents: false
+        onPressed: function(mouse) { mouse.accepted = true }
+        onReleased: function(mouse) { mouse.accepted = true }
+      }
 
       Item {
         id: keyCatcher
@@ -303,9 +318,43 @@ Item {
         }
       }
 
+      Column {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.topMargin: root.cardPadding
+        anchors.leftMargin: root.cardPadding
+        anchors.rightMargin: root.cardPadding
+        spacing: Style.spacing.xs
+
+        Text {
+          width: parent.width
+          text: "WINDOWS"
+          textFormat: Text.PlainText
+          color: Color.accent
+          font.family: Style.font.menuFamily
+          font.pixelSize: Style.font.caption
+          font.weight: Font.Bold
+          font.letterSpacing: Style.space(1.2)
+        }
+
+        Text {
+          width: parent.width
+          text: root.apps.length ? root.apps[root.selectedIndex].appName : "No open windows"
+          textFormat: Text.PlainText
+          color: Color.menu.text
+          font.family: Style.font.menuFamily
+          font.pixelSize: Style.font.title
+          font.weight: Font.DemiBold
+          elide: Text.ElideRight
+        }
+      }
+
       GridView {
         id: appList
-        anchors.centerIn: parent
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: root.cardPadding + root.cardHeaderHeight
         width: root.gridWidth
         height: root.gridHeight
         cellWidth: root.itemWidth + root.itemSpacing
@@ -322,20 +371,17 @@ Item {
 
           width: root.itemWidth
           height: root.itemHeight
-          opacity: selected ? 1 : 0.76
+          opacity: selected ? 1 : 0.72
 
           Behavior on opacity { NumberAnimation { duration: 120 } }
 
           Rectangle {
             id: selectionPlate
-            anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: Style.space(96)
-            height: Style.space(96)
-            radius: Style.space(23)
-            color: appItem.selected ? Util.alpha(Color.accent, 0.22) : "transparent"
+            anchors.fill: parent
+            radius: Style.space(14)
+            color: appItem.selected ? Util.alpha(Color.accent, 0.16) : "transparent"
             border.width: appItem.selected ? Math.max(1, Style.spacing.hairline) : 0
-            border.color: Color.accent
+            border.color: Util.alpha(Color.accent, 0.72)
 
             Behavior on color { ColorAnimation { duration: 125 } }
             Behavior on border.color { ColorAnimation { duration: 125 } }
@@ -345,9 +391,9 @@ Item {
               anchors.left: parent.left
               anchors.right: parent.right
               anchors.bottom: parent.bottom
-              anchors.leftMargin: Style.space(24)
-              anchors.rightMargin: Style.space(24)
-              anchors.bottomMargin: Style.space(7)
+              anchors.leftMargin: Style.space(52)
+              anchors.rightMargin: Style.space(52)
+              anchors.bottomMargin: Style.space(8)
               height: Style.space(3)
               radius: height / 2
               color: Color.accent
@@ -355,15 +401,15 @@ Item {
           }
 
           Column {
-            anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width
+            anchors.fill: parent
+            anchors.topMargin: Style.space(16)
+            anchors.leftMargin: Style.space(10)
+            anchors.rightMargin: Style.space(10)
             spacing: Style.spacing.sm
 
             Image {
-              width: Style.space(72)
-              height: Style.space(72)
-              anchors.topMargin: Style.space(12)
+              width: Style.space(76)
+              height: Style.space(76)
               anchors.horizontalCenter: parent.horizontalCenter
               source: appItem.modelData.icon
               sourceSize.width: width * Screen.devicePixelRatio
@@ -379,7 +425,7 @@ Item {
 
             Text {
               width: parent.width
-              text: appItem.modelData.title
+              text: appItem.modelData.appName
               textFormat: Text.PlainText
               color: appItem.selected ? Color.menu.selectedText : Util.alpha(Color.menu.text, 0.84)
               font.family: Style.font.menuFamily
@@ -388,23 +434,58 @@ Item {
               horizontalAlignment: Text.AlignHCenter
               elide: Text.ElideRight
               wrapMode: Text.Wrap
-              maximumLineCount: 2
+              maximumLineCount: 1
 
               Behavior on color { ColorAnimation { duration: 125 } }
+            }
+
+            Text {
+              width: parent.width
+              text: appItem.modelData.title
+              textFormat: Text.PlainText
+              color: Util.alpha(Color.menu.text, 0.56)
+              font.family: Style.font.menuFamily
+              font.pixelSize: Style.font.caption
+              horizontalAlignment: Text.AlignHCenter
+              elide: Text.ElideRight
+              wrapMode: Text.NoWrap
+              maximumLineCount: 1
             }
           }
 
           MouseArea {
+            z: 10
             anchors.fill: parent
             hoverEnabled: true
+            preventStealing: true
+            propagateComposedEvents: false
             cursorShape: Qt.PointingHandCursor
             onEntered: root.selectedIndex = appItem.index
-            onClicked: {
+            onPressed: function(mouse) {
               root.selectedIndex = appItem.index
-              root.commit()
+              mouse.accepted = true
+            }
+            onReleased: function(mouse) {
+              mouse.accepted = true
+              if (containsMouse) root.commit()
             }
           }
         }
+      }
+
+      Text {
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin: root.cardPadding
+        width: parent.width - root.cardPadding * 2
+        text: "Tab to move  ·  Enter to open  ·  Esc to close"
+        textFormat: Text.PlainText
+        color: Util.alpha(Color.menu.text, 0.58)
+        font.family: Style.font.menuFamily
+        font.pixelSize: Style.font.caption
+        horizontalAlignment: Text.AlignHCenter
+        elide: Text.ElideRight
+        wrapMode: Text.NoWrap
       }
     }
   }
