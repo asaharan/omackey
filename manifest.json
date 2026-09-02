@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "omackey.switcher",
+  "name": "Omackey",
+  "version": "1.0.0",
+  "author": "seedheprod",
+  "description": "macOS-style per-window switching and keyboard navigation for Omarchy",
+  "kinds": ["overlay"],
+  "keepLoaded": true,
+  "entryPoints": { "overlay": "OmackeySwitcher.qml" }
+}

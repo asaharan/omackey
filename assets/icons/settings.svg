@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="plate" x1="18" y1="10" x2="108" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#69a9ff"/>
+      <stop offset="1" stop-color="#2563c7"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="32" y1="28" x2="94" y2="101" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7fafc"/>
+      <stop offset="1" stop-color="#aeb8c5"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="27" fill="url(#plate)"/>
+  <circle cx="64" cy="64" r="31" fill="none" stroke="url(#metal)" stroke-width="13" stroke-dasharray="10 5"/>
+  <circle cx="64" cy="64" r="17" fill="#2563c7" stroke="#f7fafc" stroke-width="7"/>
+</svg>
