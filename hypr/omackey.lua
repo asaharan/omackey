@@ -1,6 +1,8 @@
 -- Omackey: macOS-style per-window switcher for Omarchy.
 hl.unbind("SUPER + TAB")
 hl.unbind("SUPER + SHIFT + TAB")
+hl.unbind("SUPER + grave")
+hl.unbind("SUPER + SHIFT + grave")
 hl.unbind("SUPER + ESCAPE")
 hl.unbind("SUPER + W")
 hl.unbind("SUPER + LEFT")
@@ -41,6 +43,8 @@ local function install_default_binds()
   active_binds = {
     hl.bind("SUPER + TAB", hl.dsp.exec_cmd(omackey .. " '{\"action\":\"forward\"}'"), { description = "Next window" }),
     hl.bind("SUPER + SHIFT + TAB", hl.dsp.exec_cmd(omackey .. " '{\"action\":\"reverse\"}'"), { description = "Previous window" }),
+    hl.bind("SUPER + grave", hl.dsp.exec_cmd(omackey .. " '{\"action\":\"forward\",\"scope\":\"application\"}'"), { description = "Next window in application" }),
+    hl.bind("SUPER + SHIFT + grave", hl.dsp.exec_cmd(omackey .. " '{\"action\":\"reverse\",\"scope\":\"application\"}'"), { description = "Previous window in application" }),
     hl.bind("SUPER + LEFT", hl.dsp.focus({ direction = "l" }), { description = "Focus on left window" }),
     hl.bind("SUPER + RIGHT", hl.dsp.focus({ direction = "r" }), { description = "Focus on right window" }),
     hl.bind("SUPER + UP", hl.dsp.focus({ direction = "u" }), { description = "Focus on above window" }),
@@ -55,6 +59,8 @@ local function install_switcher_binds()
   active_binds = {
     hl.bind("SUPER + TAB", hl.dsp.no_op(), { description = "Next window", non_consuming = true }),
     hl.bind("SUPER + SHIFT + TAB", hl.dsp.no_op(), { description = "Previous window", non_consuming = true }),
+    hl.bind("SUPER + grave", hl.dsp.no_op(), { description = "Next window in application", non_consuming = true }),
+    hl.bind("SUPER + SHIFT + grave", hl.dsp.no_op(), { description = "Previous window in application", non_consuming = true }),
     hl.bind("SUPER + LEFT", hl.dsp.no_op(), { description = "Select window on left", non_consuming = true }),
     hl.bind("SUPER + RIGHT", hl.dsp.no_op(), { description = "Select window on right", non_consuming = true }),
     hl.bind("SUPER + UP", hl.dsp.no_op(), { description = "Select window above", non_consuming = true }),

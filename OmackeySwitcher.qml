@@ -14,6 +14,8 @@ Item {
   property var apps: []
   property var recentToplevels: []
   property int selectedIndex: 0
+  property string switchScope: "all"
+  property string scopedAppId: ""
 
   readonly property int itemWidth: Style.space(146)
   readonly property int itemHeight: Style.space(154)
@@ -136,6 +138,7 @@ Item {
     for (var n = 0; n < ordered.length; n++) {
       var target = ordered[n]
       var id = root.appIdFor(target)
+      if (root.switchScope === "application" && id !== root.scopedAppId) continue
       var entry = root.desktopEntry(id)
       nextApps.push({
         appId: id,
@@ -196,17 +199,21 @@ Item {
     return true
   }
 
-  function parseAction(payloadJson) {
+  function parsePayload(payloadJson) {
     try {
       var payload = JSON.parse(payloadJson || "{}")
-      return String(payload.action || "forward")
+      return {
+        action: String(payload.action || "forward"),
+        scope: String(payload.scope || "all")
+      }
     } catch (error) {
-      return "forward"
+      return { action: "forward", scope: "all" }
     }
   }
 
   function open(payloadJson) {
-    var action = root.parseAction(payloadJson)
+    var payload = root.parsePayload(payloadJson)
+    var action = payload.action
     if (action === "commit") {
       root.commit()
       return
@@ -217,6 +224,9 @@ Item {
     }
 
     if (!root.opened) {
+      root.switchScope = payload.scope === "application" ? "application" : "all"
+      root.scopedAppId = root.switchScope === "application"
+        ? root.appIdFor(ToplevelManager.activeToplevel) : ""
       root.rebuildApps()
       if (!root.apps.length) {
         root.dismiss(false)
@@ -227,6 +237,14 @@ Item {
       root.navigate(action)
       Qt.callLater(function() { keyCatcher.forceActiveFocus() })
     } else {
+      if (payload.scope === "application" && root.switchScope !== "application") {
+        var selected = root.apps.length ? root.apps[root.selectedIndex].toplevel : ToplevelManager.activeToplevel
+        root.switchScope = "application"
+        root.scopedAppId = root.appIdFor(selected)
+        root.rebuildApps()
+        root.selectedIndex = Math.min(1, root.apps.length - 1)
+        return
+      }
       if (!root.navigate(action)) root.advance(action === "reverse" ? -1 : 1)
     }
   }
@@ -347,6 +365,9 @@ Item {
           } else if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
             root.advance((event.modifiers & Qt.ShiftModifier) || event.key === Qt.Key_Backtab ? -1 : 1)
             event.accepted = true
+          } else if (event.key === Qt.Key_QuoteLeft || event.key === Qt.Key_AsciiTilde) {
+            root.advance(event.modifiers & Qt.ShiftModifier ? -1 : 1)
+            event.accepted = true
           } else if (event.key === Qt.Key_Left) {
             root.moveLeft()
             event.accepted = true
@@ -384,7 +405,7 @@ Item {
 
         Text {
           width: parent.width
-          text: "WINDOWS"
+          text: root.switchScope === "application" ? "APPLICATION WINDOWS" : "WINDOWS"
           textFormat: Text.PlainText
           color: Color.accent
           font.family: Style.font.menuFamily

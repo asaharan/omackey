@@ -5,6 +5,7 @@ Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware pe
 ## Switcher
 
 - Hold `Super` and press `Tab` or `Shift+Tab` to move through windows.
+- Hold `Super` and press `` ` `` or `Shift+\`` to move through windows of the current application.
 - Release `Super` to focus the highlighted window.
 - Press `Super+Escape` to cancel. The Omarchy System menu moves to `Super+Ctrl+Escape`.
 - Every window remains visible in a stable grid with its title and application icon.
