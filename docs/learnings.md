@@ -2,11 +2,16 @@
 
 ## Stable state
 
-The current stability-first implementation does not use an Omackey Hyprland
-submap. `Super+Tab` and `Super+Shift+Tab` summon the overlay, while the normal
-global `Super` shortcuts remain available. Arrow-navigation functions and grid
-math exist in QML, but `Super+Arrow` is still intercepted by Hyprland's normal
-window-focus bindings and therefore does not navigate the switcher.
+The implementation does not use an Omackey Hyprland submap. Instead, it watches
+the `macos-application-switcher` layer lifecycle and swaps binding handles only
+while that layer is mapped. `Super+Tab` and `Super+Shift+Tab` summon the overlay;
+while open, Tab and `Super+Arrow` pass directly to QML and `Super+mouse:272/273`
+are consumed. When the layer closes, the normal focus and move/resize bindings
+are restored immediately.
+
+This avoids both release-dependent cleanup and per-navigation shell IPC. Two
+complete programmatic open/close cycles confirmed that the bindings swapped in
+both directions while `hyprctl submap` remained `default` throughout.
 
 ## What went wrong
 
@@ -22,6 +27,10 @@ Two compositor-side approaches were tested and caused input problems:
    reliably return to the default map on this system. When it remained active,
    unrelated global shortcuts such as `Super+V` stopped working and the whole
    keyboard felt delayed or broken.
+3. Binding bare `SUPER_L` and `SUPER_R` release events with `ignore_mods` did
+   not make the exit reliable. After selecting a window, the live compositor
+   again remained in `omackey`, disabling `Super+Tab`, `Super+F`, and other
+   global shortcuts. This design was rolled back immediately.
 
 The concrete diagnostic for the second failure was:
 
