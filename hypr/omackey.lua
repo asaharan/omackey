@@ -2,6 +2,20 @@
 hl.unbind("SUPER + TAB")
 hl.unbind("SUPER + SHIFT + TAB")
 hl.unbind("SUPER + ESCAPE")
+hl.unbind("SUPER + W")
+
+local function send_shortcut_once(mods, key)
+  return function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+    end, { timeout = 50, type = "oneshot" })
+  end
+end
+
+-- macOS-style window and in-app close shortcuts.
+o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
+o.bind("SUPER + W", "Close in app", send_shortcut_once("CTRL", "W"))
 
 local omackey = "omarchy-shell shell summon omackey.switcher"
 local commit = "omarchy-shell -q shell call omackey.switcher commit ''"

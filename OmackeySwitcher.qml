@@ -29,7 +29,9 @@ Item {
   readonly property int columnsNeededToFit: Math.max(1, Math.ceil(apps.length / maximumRows))
   readonly property int gridColumns: Math.min(Math.max(1, apps.length), maximumColumns, Math.max(Math.min(6, Math.max(1, apps.length)), columnsNeededToFit))
   readonly property int gridRows: Math.max(1, Math.ceil(apps.length / gridColumns))
-  readonly property int gridWidth: gridColumns * itemWidth + Math.max(0, gridColumns - 1) * itemSpacing
+  // GridView derives its column count from complete cell widths. Keep the
+  // trailing cell spacing in the viewport or the last item wraps invisibly.
+  readonly property int gridWidth: gridColumns * itemStep
   readonly property int gridHeight: gridRows * itemHeight + Math.max(0, gridRows - 1) * itemSpacing
   readonly property int cardWidth: Math.max(Style.space(280), gridWidth + cardPadding * 2)
   readonly property int cardHeight: gridHeight + cardPadding * 2 + cardHeaderHeight + cardFooterHeight
