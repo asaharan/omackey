@@ -9,6 +9,8 @@ hl.unbind("SUPER + LEFT")
 hl.unbind("SUPER + RIGHT")
 hl.unbind("SUPER + UP")
 hl.unbind("SUPER + DOWN")
+hl.unbind("SUPER + RETURN")
+hl.unbind("SUPER + SHIFT + RETURN")
 hl.unbind("SUPER + mouse:272")
 hl.unbind("SUPER + mouse:273")
 
@@ -49,6 +51,8 @@ local function install_default_binds()
     hl.bind("SUPER + RIGHT", hl.dsp.focus({ direction = "r" }), { description = "Focus on right window" }),
     hl.bind("SUPER + UP", hl.dsp.focus({ direction = "u" }), { description = "Focus on above window" }),
     hl.bind("SUPER + DOWN", hl.dsp.focus({ direction = "d" }), { description = "Focus on below window" }),
+    hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("omarchy-launch-terminal"), { description = "Terminal" }),
+    hl.bind("SUPER + SHIFT + RETURN", hl.dsp.exec_cmd("omarchy-launch-browser"), { description = "Browser" }),
     hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { description = "Move window", mouse = true }),
     hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { description = "Resize window", mouse = true }),
   }
@@ -65,6 +69,8 @@ local function install_switcher_binds()
     hl.bind("SUPER + RIGHT", hl.dsp.no_op(), { description = "Select window on right", non_consuming = true }),
     hl.bind("SUPER + UP", hl.dsp.no_op(), { description = "Select window above", non_consuming = true }),
     hl.bind("SUPER + DOWN", hl.dsp.no_op(), { description = "Select window below", non_consuming = true }),
+    hl.bind("SUPER + RETURN", hl.dsp.no_op(), { description = "Open selected window", non_consuming = true }),
+    hl.bind("SUPER + SHIFT + RETURN", hl.dsp.no_op(), { description = "Open selected window", non_consuming = true }),
     hl.bind("SUPER + mouse:272", hl.dsp.no_op(), { mouse = true }),
     hl.bind("SUPER + mouse:273", hl.dsp.no_op(), { mouse = true }),
   }
