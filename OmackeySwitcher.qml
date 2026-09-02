@@ -23,7 +23,11 @@ Item {
   readonly property int cardHeaderHeight: Style.space(58)
   readonly property int cardFooterHeight: Style.space(42)
   readonly property int availableGridWidth: Math.max(itemWidth, panel.width - Style.space(64) - cardPadding * 2)
-  readonly property int gridColumns: Math.min(6, Math.max(1, apps.length), Math.max(1, Math.floor((availableGridWidth + itemSpacing) / itemStep)))
+  readonly property int availableGridHeight: Math.max(itemHeight, panel.height - Style.space(64) - cardPadding * 2 - cardHeaderHeight - cardFooterHeight)
+  readonly property int maximumColumns: Math.max(1, Math.floor((availableGridWidth + itemSpacing) / itemStep))
+  readonly property int maximumRows: Math.max(1, Math.floor((availableGridHeight + itemSpacing) / (itemHeight + itemSpacing)))
+  readonly property int columnsNeededToFit: Math.max(1, Math.ceil(apps.length / maximumRows))
+  readonly property int gridColumns: Math.min(Math.max(1, apps.length), maximumColumns, Math.max(Math.min(6, Math.max(1, apps.length)), columnsNeededToFit))
   readonly property int gridRows: Math.max(1, Math.ceil(apps.length / gridColumns))
   readonly property int gridWidth: gridColumns * itemWidth + Math.max(0, gridColumns - 1) * itemSpacing
   readonly property int gridHeight: gridRows * itemHeight + Math.max(0, gridRows - 1) * itemSpacing
