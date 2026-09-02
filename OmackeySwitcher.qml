@@ -154,6 +154,48 @@ Item {
     root.selectedIndex = (root.selectedIndex + delta + root.apps.length) % root.apps.length
   }
 
+  function moveHorizontal(delta) {
+    if (!root.apps.length) return
+    var rowStart = Math.floor(root.selectedIndex / root.gridColumns) * root.gridColumns
+    var rowEnd = Math.min(rowStart + root.gridColumns, root.apps.length) - 1
+    root.selectedIndex = Math.max(rowStart, Math.min(rowEnd, root.selectedIndex + delta))
+  }
+
+  function moveLeft() {
+    root.moveHorizontal(-1)
+  }
+
+  function moveRight() {
+    root.moveHorizontal(1)
+  }
+
+  function moveVertical(delta) {
+    if (!root.apps.length) return
+    var column = root.selectedIndex % root.gridColumns
+    var targetRow = Math.floor(root.selectedIndex / root.gridColumns) + delta
+    targetRow = Math.max(0, Math.min(root.gridRows - 1, targetRow))
+    var rowStart = targetRow * root.gridColumns
+    var rowEnd = Math.min(rowStart + root.gridColumns, root.apps.length) - 1
+    root.selectedIndex = Math.min(rowStart + column, rowEnd)
+  }
+
+  function moveUp() {
+    root.moveVertical(-1)
+  }
+
+  function moveDown() {
+    root.moveVertical(1)
+  }
+
+  function navigate(action) {
+    if (action === "left") root.moveLeft()
+    else if (action === "right") root.moveRight()
+    else if (action === "up") root.moveUp()
+    else if (action === "down") root.moveDown()
+    else return false
+    return true
+  }
+
   function parseAction(payloadJson) {
     try {
       var payload = JSON.parse(payloadJson || "{}")
@@ -182,9 +224,10 @@ Item {
       }
       root.opened = true
       root.selectedIndex = action === "reverse" ? root.apps.length - 1 : Math.min(1, root.apps.length - 1)
+      root.navigate(action)
       Qt.callLater(function() { keyCatcher.forceActiveFocus() })
     } else {
-      root.advance(action === "reverse" ? -1 : 1)
+      if (!root.navigate(action)) root.advance(action === "reverse" ? -1 : 1)
     }
   }
 
@@ -305,10 +348,16 @@ Item {
             root.advance((event.modifiers & Qt.ShiftModifier) || event.key === Qt.Key_Backtab ? -1 : 1)
             event.accepted = true
           } else if (event.key === Qt.Key_Left) {
-            root.advance(-1)
+            root.moveLeft()
             event.accepted = true
           } else if (event.key === Qt.Key_Right) {
-            root.advance(1)
+            root.moveRight()
+            event.accepted = true
+          } else if (event.key === Qt.Key_Up) {
+            root.moveUp()
+            event.accepted = true
+          } else if (event.key === Qt.Key_Down) {
+            root.moveDown()
             event.accepted = true
           } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
             root.commit()
@@ -484,7 +533,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottomMargin: root.cardPadding
         width: parent.width - root.cardPadding * 2
-        text: "Tab to move  ·  Enter to open  ·  Esc to close"
+        text: "Tab or ← ↑ ↓ → to move  ·  Enter to open  ·  Esc to close"
         textFormat: Text.PlainText
         color: Util.alpha(Color.menu.text, 0.58)
         font.family: Style.font.menuFamily
