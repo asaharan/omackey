@@ -1,6 +1,9 @@
 # Application switcher input learnings
 
-## Stable state
+> Historical note: the layer-lifecycle design below was replaced by the
+> compositor-owned handshake documented in [switcher-working.md](switcher-working.md).
+
+## Previous stable state
 
 The implementation does not use an Omackey Hyprland submap. Instead, it watches
 the `macos-application-switcher` layer lifecycle and swaps binding handles only
