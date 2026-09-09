@@ -176,167 +176,6 @@ h1 em {
 .hero-note span {
   padding:0 8px;
 }
-.playground {
-  position:relative;
-  padding:26px;
-  background:#e4e7ef;
-  border:1px solid #d7dce6;
-  border-radius:20px;
-  box-shadow:0 18px 70px #353f5810;
-  transform:rotate(1.5deg);
-}
-.demo-heading {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:20px;
-}
-.demo-heading .eyebrow {
-  font-size:9px;
-  letter-spacing:1px;
-  margin:0;
-}
-.demo-tag {
-  font-size:9px;
-  border:1px solid #c4cbd8;
-  border-radius:20px;
-  padding:3px 8px;
-  color:var(--muted);
-}
-.editor {
-  background:var(--white);
-  border:1px solid #d4d9e3;
-  border-radius:9px;
-  overflow:hidden;
-  box-shadow:0 10px 25px #242c4907;
-}
-.editor-bar {
-  display:flex;
-  gap:35px;
-  align-items:center;
-  padding:12px 15px;
-  font-family:var(--mono);
-  font-size:9px;
-  color:var(--muted);
-  border-bottom:1px solid #e6e8ee;
-}
-.window-dots {
-  display:flex;
-  gap:5px;
-}
-.window-dots i {
-  height:6px;
-  width:6px;
-  border-radius:50%;
-  background:#d1d5e0;
-}
-.window-dots i:first-child {
-  background:#eda391;
-}
-.editor-body {
-  display:flex;
-  gap:20px;
-  align-items:center;
-  padding:37px 20px;
-  font:13px var(--mono);
-  min-height:100px;
-}
-.line-number {
-  color:#939aae;
-}
-.demo-line {
-  white-space:nowrap;
-}
-.cursor {
-  display:inline-block;
-  width:2px;
-  height:18px;
-  background:#826ab5;
-  vertical-align:middle;
-  margin-left:2px;
-}
-.demo-after {
-  color:#64718c;
-}
-.editor-footer {
-  display:flex;
-  justify-content:space-between;
-  padding:12px 15px;
-  background:#f5f6fa;
-  border-top:1px solid #e6e8ee;
-  font-size:9px;
-  color:var(--muted);
-}
-.key-stage {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:24px;
-  padding:43px 0 40px;
-  perspective:700px;
-}
-.large-key {
-  width:125px;
-  height:115px;
-  border-radius:15px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  justify-content:space-between;
-  padding:13px 18px;
-  transform:rotateX(12deg);
-  transition:transform .2s,box-shadow .2s;
-}
-.large-key>span {
-  font-size:40px;
-  line-height:1.2;
-}
-.large-key small {
-  font-size:13px;
-}
-.command-key {
-  background:linear-gradient(135deg,#ffccbf,var(--coral));
-  border:1px solid #d78f7f;
-  box-shadow:0 8px 0 #c27f70,0 15px 19px #74554727,inset 0 2px 2px #ffe2d6;
-}
-.delete-key {
-  width:148px;
-  background:linear-gradient(135deg,#fff,#e4e8ef);
-  border:1px solid #c8ceda;
-  box-shadow:0 8px 0 #b4bccb,0 15px 19px #48536a22,inset 0 2px 2px white;
-}
-.key-plus {
-  color:#8891a5;
-  font-size:21px;
-}
-.is-pressed .large-key {
-  transform:rotateX(12deg) translateY(6px);
-  box-shadow:0 2px 0 #a7adbb,0 5px 10px #48536a22;
-}
-.demo-button {
-  width:100%;
-  padding:12px;
-  border:1px solid #c3cad7;
-  border-radius:7px;
-  background:transparent;
-  color:var(--ink);
-  font-size:12px;
-  font-weight:650;
-  display:flex;
-  justify-content:center;
-  gap:40px;
-}
-.demo-button:hover {
-  background:#f1f3f8;
-}
-.demo-caption {
-  font-size:10px;
-  text-align:center;
-  color:var(--muted);
-  margin:14px 0 0;
-  line-height:1.8;
-}
 .habit-strip {
   border-block:1px solid var(--line);
   padding:19px 0;
@@ -772,17 +611,6 @@ details code {
   h1 {
     font-size:70px;
   }
-  .playground {
-    padding:20px;
-  }
-  .demo-heading {
-    flex-wrap:wrap;
-  }
-  .editor-body {
-    font-size:11px;
-    gap:12px;
-    padding-inline:13px;
-  }
   .shortcut-grid {
     grid-template-columns:repeat(2,1fr);
   }
@@ -848,21 +676,6 @@ details code {
   }
   .hero-note {
     margin-top:20px;
-  }
-  .playground {
-    max-width:490px;
-    width:100%;
-    justify-self:center;
-    transform:none;
-    padding:22px;
-  }
-  .demo-heading {
-    flex-wrap:nowrap;
-  }
-  .editor-body {
-    font-size:13px;
-    gap:16px;
-    padding:35px 17px;
   }
   .habit-strip .wrap {
     display:block;
@@ -932,7 +745,7 @@ details code {
   .hero {
     grid-template-columns:minmax(0,1fr);
   }
-  .hero-copy,.playground {
+  .hero-copy {
     min-width:0;
   }
   h1 {
@@ -946,25 +759,6 @@ details code {
   }
   .button {
     padding-inline:17px;
-  }
-  .playground {
-    padding:15px;
-  }
-  .editor-body {
-    font-size:11px;
-  }
-  .demo-tag {
-    font-size:8px;
-  }
-  .large-key {
-    width:106px;
-    height:102px;
-  }
-  .delete-key {
-    width:125px;
-  }
-  .key-stage {
-    gap:18px;
   }
   .shortcut-grid {
     grid-template-columns:1fr;
@@ -992,4 +786,95 @@ details code {
     transition:none!important;
     animation:none!important;
   }
+}
+
+.hero-keyboard {
+  margin:0;
+  min-width:0;
+}
+.hero-keyboard img {
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:12px;
+  mix-blend-mode:multiply;
+}
+.all-shortcuts {
+  margin-top:52px;
+  scroll-margin-top:30px;
+}
+.all-shortcuts h3 {
+  font-size:26px;
+  font-weight:600;
+  letter-spacing:-.6px;
+  margin:0 0 10px;
+}
+.all-shortcuts > p {
+  font-size:13px;
+  color:var(--muted);
+  margin:0 0 24px;
+}
+.bindings-table {
+  border-collapse:collapse;
+  width:100%;
+  text-align:left;
+  font-size:14px;
+}
+.bindings-table caption {
+  text-align:left;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+.bindings-table th,.bindings-table td {
+  padding:15px 20px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+.bindings-table thead {
+  background:var(--ink);
+  color:var(--white);
+  font-size:12px;
+}
+.bindings-table th[scope="row"] {
+  width:38%;
+  font-weight:500;
+  line-height:2.2;
+}
+.bindings-table kbd {
+  white-space:nowrap;
+}
+.binding-group {
+  background:#e1e5ef;
+}
+.binding-group th {
+  font-weight:650;
+  padding-block:18px;
+}
+.binding-group span {
+  display:inline-block;
+  margin-left:12px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:400;
+}
+.bindings-table small {
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+.chord-plus {
+  color:var(--muted);
+  font-size:11px;
+}
+@media(max-width:760px) {
+  .hero-keyboard {width:100%;max-width:580px;justify-self:center;}
+  .bindings-table {font-size:12px;}
+  .bindings-table th,.bindings-table td {padding:12px 8px;}
+  .bindings-table th[scope="row"] {width:43%;}
+  .bindings-table kbd {font-size:10px;padding:1px 5px;min-width:22px;}
+  .bindings-table small {font-size:11px;}
+  .binding-group span {display:block;margin:3px 0 0;}
 }

@@ -29,20 +29,12 @@
         <p class="eyebrow"><span class="status-dot"></span> A little familiarity for Omarchy</p>
         <h1 id="hero-title">New OS.<br>Same <em>muscle<br class="desktop-break"> memory.</em></h1>
         <p class="intro">You moved to Linux. Your hands stayed on a Mac. Bring your favorite shortcuts with you.</p>
-        <div class="hero-actions"><a class="button primary" href="#install">Meet your old shortcuts <span aria-hidden="true">↗</span></a><a class="text-link" href="#playground">Try a little demo <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-actions"><a class="button primary" href="#install">Meet your old shortcuts <span aria-hidden="true">↗</span></a><a class="text-link" href="#all-shortcuts">View all shortcuts <span aria-hidden="true">↓</span></a></div>
         <p class="hero-note">Made for Omarchy <span>·</span> Open source <span>·</span> MIT licensed</p>
       </div>
-      <div class="playground" id="playground">
-        <div class="demo-heading"><span class="eyebrow">The muscle-memory test</span><span class="demo-tag">Interactive demo</span></div>
-        <div class="editor">
-          <div class="editor-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>one familiar keystroke</span></div>
-          <div class="editor-body"><span class="line-number" aria-hidden="true">1</span><div class="demo-line"><span id="demo-before">new machine, same habits</span><span class="cursor" aria-hidden="true"></span><span class="demo-after">.</span></div></div>
-          <div class="editor-footer"><span id="demo-status" role="status">Delete to the start. Keep what comes after.</span><span aria-hidden="true">↵</span></div>
-        </div>
-        <div class="key-stage" aria-hidden="true"><div class="large-key command-key"><span>⌘</span><small>command</small></div><span class="key-plus">+</span><div class="large-key delete-key"><span>⌫</span><small>delete</small></div></div>
-        <button class="demo-button" id="run-demo" type="button">Try Cmd + Backspace <span aria-hidden="true">↗</span></button>
-        <p class="demo-caption">Mac’s Cmd key is Super in Omarchy.<br>This demo illustrates the shortcut inside this page.</p>
-      </div>
+      <figure class="hero-keyboard">
+        <img src="assets/omackey-keyboard-clean.png" alt="Silver Mac keyboard with Command highlighted in coral, and Tab, T, W, Delete, and left/right arrow keys highlighted in mint." width="1536" height="1024" fetchpriority="high">
+      </figure>
     </section>
     <div class="habit-strip"><div class="wrap"><span>A familiar feeling.</span><p><kbd>⌘</kbd> <kbd>T</kbd> a fresh tab <i> / </i> <kbd>⌘</kbd> <kbd>S</kbd> a quick save <i> / </i> <kbd>⌘</kbd> <kbd>Tab</kbd> your next window</p></div></div>
     <section class="shortcuts wrap section" id="shortcuts" aria-labelledby="shortcuts-title">
@@ -54,6 +46,72 @@
         <article class="shortcut"><span class="mini-symbol" aria-hidden="true">↶</span><h3>The everyday essentials.</h3><p>Select all, undo, find, and save. One less thing to think about.</p><div class="chord"><kbd>⌘</kbd><span>+</span><kbd>A</kbd><kbd>Z</kbd><kbd>F</kbd><kbd>S</kbd></div></article>
       </div>
       <p class="fine-print">Shortcuts follow the focused app’s behavior. Cmd+Q closes the focused window. <a href="https://github.com/asaharan/omackey#your-everyday-keys-back-where-you-expect-them">See all shortcuts and behavior notes ↗</a></p>
+
+      <div class="all-shortcuts" id="all-shortcuts">
+        <h3>All Omackey bindings</h3>
+        <p id="shortcut-table-note">Cmd is Super in Omarchy; Option is Alt. Application actions depend on how the focused app handles the keys sent to it.</p>
+        <table class="bindings-table" aria-describedby="shortcut-table-note">
+          <caption>Complete shortcut reference</caption>
+          <thead><tr><th scope="col">Shortcut</th><th scope="col">Action in Omarchy with Omackey</th></tr></thead>
+          <tbody>
+            <tr class="binding-group"><th colspan="2" scope="rowgroup">Text editing and navigation</th></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>A</kbd></th><td>Select all<small>Sends Ctrl + A.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Z</kbd></th><td>Undo<small>Sends Ctrl + Z.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>Z</kbd></th><td>Redo<small>Sends Ctrl + Shift + Z.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Backspace</kbd></th><td>Delete to start of line<small>Sends Ctrl+U in windows tagged terminal; Shift+Home, then Backspace elsewhere.</small></td></tr>
+            <tr><th scope="row"><kbd>Option</kbd> <span class="chord-plus">+</span> <kbd>←</kbd></th><td>Word left<small>Option on a Mac keyboard. Sends Alt+B in tagged terminals; Ctrl+Left elsewhere.</small></td></tr>
+            <tr><th scope="row"><kbd>Option</kbd> <span class="chord-plus">+</span> <kbd>→</kbd></th><td>Word right<small>Option on a Mac keyboard. Sends Alt+F in tagged terminals; Ctrl+Right elsewhere.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>←</kbd></th><td>Start of line<small>Sends Home.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>→</kbd></th><td>End of line<small>Sends End.</small></td></tr>
+          </tbody>
+          <tbody>
+            <tr class="binding-group"><th colspan="2" scope="rowgroup">Application shortcuts</th></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>W</kbd></th><td>Close in app<small>Sends Ctrl + W.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>T</kbd></th><td>New tab<small>Sends Ctrl + T.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>T</kbd></th><td>Reopen closed tab<small>Sends Ctrl + Shift + T.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>F</kbd></th><td>Find<small>Sends Ctrl + F.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>S</kbd></th><td>Save<small>Sends Ctrl + S.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>O</kbd></th><td>Open<small>Sends Ctrl + O.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>P</kbd></th><td>Print<small>Sends Ctrl + P.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>N</kbd></th><td>New window<small>Sends Ctrl + N.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>N</kbd></th><td>New private window<small>Sends Ctrl + Shift + N.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>R</kbd></th><td>Reload<small>Sends Ctrl + R.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>L</kbd></th><td>Focus location<small>Sends Ctrl + L.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>[</kbd></th><td>Back<small>Sends Alt + Left.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>]</kbd></th><td>Forward<small>Sends Alt + Right.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>G</kbd></th><td>Next match<small>Sends Ctrl + G.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>G</kbd></th><td>Previous match<small>Sends Ctrl + Shift + G.</small></td></tr>
+          </tbody>
+          <tbody>
+            <tr class="binding-group"><th colspan="2" scope="rowgroup">Window and desktop controls</th></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Q</kbd></th><td>Close window<small>Closes the focused window, not every window of an application.</small></td></tr>
+            <tr><th scope="row"><kbd>Ctrl</kbd> <span class="chord-plus">+</span> <kbd>←</kbd></th><td>Focus on left window</td></tr>
+            <tr><th scope="row"><kbd>Ctrl</kbd> <span class="chord-plus">+</span> <kbd>→</kbd></th><td>Focus on right window</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>↑</kbd></th><td>Focus on above window</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>↓</kbd></th><td>Focus on below window</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Enter</kbd></th><td>Launch terminal</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>Enter</kbd></th><td>Launch browser</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Left drag</kbd></th><td>Move window<small>Hold Cmd and drag with the left mouse button. Disabled while the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Right drag</kbd></th><td>Resize window<small>Hold Cmd and drag with the right mouse button. Disabled while the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Ctrl</kbd> <span class="chord-plus">+</span> <kbd>Esc</kbd></th><td>System menu<small>The Omarchy System menu moves here from Cmd+Escape.</small></td></tr>
+          </tbody>
+          <tbody>
+            <tr class="binding-group"><th colspan="2" scope="rowgroup">Window switcher <span>Requires the switcher UI</span></th></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Tab</kbd></th><td>Next window</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>Tab</kbd></th><td>Previous window</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>`</kbd></th><td>Next window in application</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>`</kbd></th><td>Previous window in application</td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>←</kbd></th><td>Select the tile to the left<small>While the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>→</kbd></th><td>Select the tile to the right<small>While the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>↑</kbd></th><td>Select the tile above<small>While the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>↓</kbd></th><td>Select the tile below<small>While the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Enter</kbd></th><td>Activate the selected window<small>While the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Shift</kbd> <span class="chord-plus">+</span> <kbd>Enter</kbd></th><td>Activate the selected window<small>While the switcher is open.</small></td></tr>
+            <tr><th scope="row"><kbd>Cmd</kbd> <span class="chord-plus">+</span> <kbd>Esc</kbd></th><td>Cancel the switcher<small>Return without changing the focused window.</small></td></tr>
+            <tr><th scope="row">Release either <kbd>Cmd</kbd></th><td>Activate the selected window<small>Release the left or right Command key while the switcher is open.</small></td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
     <section class="switcher-section section" aria-labelledby="switcher-title"><div class="wrap switcher-layout">
       <div><p class="eyebrow">Find the window. Keep your flow.</p><h2 id="switcher-title">Hold. Choose.<br><em>You're there.</em></h2><p>Hold Cmd and press Tab to cycle through individual windows. Release to focus your choice. Every window gets its own tile—even when they belong to the same app.</p><p class="switcher-detail">Add Shift to go backwards. Use Cmd + <kbd>`</kbd> to cycle within the current application.</p><a class="text-link" href="https://github.com/asaharan/omackey#switcher">Explore the optional switcher <span aria-hidden="true">↗</span></a></div>
