@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "asaharan.omackey",
   "name": "Omackey",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "seedheprod",
   "license": "MIT",
   "description": "macOS-style per-window switching and keyboard navigation for Omarchy",
