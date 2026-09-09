@@ -28,13 +28,26 @@ Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware pe
   `Super+Shift+G` for the next or previous match.
 - Use `Super+Backspace` to delete to the start of the line.
 
-## Development install
+## Installation
 
 ```bash
 ./install.sh
 ```
 
-The installer links this checkout into Omarchy, installs the managed Hyprland module, and preserves unrelated user configuration. Run `./uninstall.sh` to remove only Omackey-managed integration.
+The installer:
+- Links this checkout into Omarchy
+- Installs Mac key bindings (always active)
+- Optionally installs the switcher UI overlay
+
+After installation, Mac key bindings are immediately active. You can manage the switcher UI overlay:
+
+```bash
+./enable-switcher.sh   # Enable switcher UI overlay
+./disable-switcher.sh  # Disable switcher UI overlay
+./install.sh           # Re-run install to be prompted
+```
+
+Run `./uninstall.sh` to remove all Omackey integration.
 
 ## Native Omarchy plugin install
 

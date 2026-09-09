@@ -10,12 +10,20 @@ module_file="$hypr_dir/omackey.lua"
 
 mkdir -p -- "$(dirname -- "$plugin_dir")" "$hypr_dir"
 
+# Create symlink if not already present
 if [[ $project_dir != "$plugin_dir" ]]; then
-  if [[ -e $plugin_dir || -L $plugin_dir ]]; then
+  if [[ -L $plugin_dir ]]; then
+    # Symlink exists, check if it points to the right place
+    if [[ $(readlink -f -- "$plugin_dir") != "$project_dir" ]]; then
+      echo "Error: Plugin path exists but points elsewhere" >&2
+      exit 1
+    fi
+  elif [[ -e $plugin_dir ]]; then
     echo "Omackey plugin path already exists: $plugin_dir" >&2
     exit 1
+  else
+    ln -s -- "$project_dir" "$plugin_dir"
   fi
-  ln -s -- "$project_dir" "$plugin_dir"
 fi
 
 # Always install Mac key bindings
@@ -41,12 +49,12 @@ read -r enable_switcher
 
 if [[ "$enable_switcher" =~ ^[Yy]$ ]]; then
   omarchy plugin enable "$plugin_id" >/dev/null
-  echo "Omackey installed with switcher UI. Hold Super and press Tab to switch windows."
+  echo "Omackey switcher UI enabled. Hold Super and press Tab to switch windows."
 else
   omarchy plugin disable "$plugin_id" >/dev/null 2>&1 || true
-  echo "Omackey installed with Mac key bindings only. Switcher UI disabled."
+  echo "Omackey switcher UI disabled."
 fi
 
 omarchy-shell shell rescanPlugins >/dev/null
 
-echo "Mac key bindings are active: Super+T (new tab), Super+W (close), Super+Q (quit), etc."
+echo "✓ Mac key bindings are active: Super+T (new tab), Super+W (close), Super+Q (quit), etc."
