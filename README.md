@@ -10,6 +10,11 @@ Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware pe
 - Press `Super+Escape` to cancel. The Omarchy System menu moves to `Super+Ctrl+Escape`.
 - Every window remains visible in a stable grid with its title and application icon.
 
+## Window navigation
+
+- Press `Super+Left` or `Super+Right` to focus the window in that direction.
+- When the focused window is full-width or fullscreen, the same shortcuts cycle through the other windows on its workspace, including windows hidden behind it.
+
 ## Development install
 
 ```bash

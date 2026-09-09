@@ -1,4 +1,12 @@
 -- Omackey: macOS-style per-window switcher for Omarchy.
+hl.config({
+  binds = {
+    -- Keep directional focus useful when a maximized/fullscreen window hides
+    -- the other windows on its workspace.
+    movefocus_cycles_fullscreen = true,
+  },
+})
+
 hl.unbind("SUPER + TAB")
 hl.unbind("SUPER + SHIFT + TAB")
 hl.unbind("SUPER + grave")
