@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.Commons
 import qs.Ui
 
@@ -111,6 +112,23 @@ Item {
   function containsToplevel(values, target) {
     for (var i = 0; i < values.length; i++) if (values[i] === target) return true
     return false
+  }
+
+  // A normal toplevel can only be activated by the compositor once this
+  // overlay's exclusive-focus layer has closed, so we always defer that call
+  // until after `closeOverlay`. The generic wlr `activate()` request already
+  // handles same-workspace focus correctly (including fullscreen swaps), but
+  // for a target on a different workspace it loses the race against
+  // Hyprland's own focus-restore-on-layer-close, which re-focuses whatever
+  // was last active there instead. For that cross-workspace case, focus by
+  // address through this build's Lua dispatch (`hl.dsp.focus`) instead.
+  function hyprlandToplevelFor(toplevel) {
+    if (!toplevel) return null
+    var values = Hyprland.toplevels.values || []
+    for (var i = 0; i < values.length; i++) {
+      if (values[i].wayland === toplevel) return values[i]
+    }
+    return null
   }
 
   function rememberToplevel(toplevel) {
@@ -255,13 +273,32 @@ Item {
 
   function dismiss(activateSelection) {
     var target = activateSelection && root.apps.length ? root.apps[root.selectedIndex].toplevel : null
+    var hyprTarget = target ? root.hyprlandToplevelFor(target) : null
+    var crossWorkspace = !!(hyprTarget && hyprTarget.workspace && Hyprland.focusedWorkspace
+      && hyprTarget.workspace.id !== Hyprland.focusedWorkspace.id && hyprTarget.address)
+
     root.opened = false
     if (root.shell && typeof root.shell.hide === "function")
       root.shell.hide((root.manifest && root.manifest.id) || "omackey.switcher")
 
     if (target) {
       if (target.minimized) target.minimized = false
-      Qt.callLater(function() { target.activate() })
+      Qt.callLater(function() {
+        if (crossWorkspace) {
+          // The generic wlr `activate()` request loses the race against
+          // Hyprland's focus-restore-on-layer-close when the target lives on
+          // a different workspace: the workspace switches, but whatever was
+          // last active there wins the focus instead of our selection. This
+          // build's hyprctl "dispatch" evaluates its argument as Lua
+          // (`hl.dispatch(<arg>)`), so focus-by-address goes through
+          // `hl.dsp.focus({ window = ... })` rather than the classic
+          // "focuswindow address:..." dispatcher string.
+          var address = hyprTarget.address.indexOf("0x") === 0 ? hyprTarget.address : "0x" + hyprTarget.address
+          Hyprland.dispatch("hl.dsp.focus({ window = \"address:" + address + "\" })")
+        } else {
+          target.activate()
+        }
+      })
     }
   }
 
