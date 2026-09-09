@@ -28,6 +28,8 @@ hl.unbind("SUPER + LEFT")
 hl.unbind("SUPER + RIGHT")
 hl.unbind("SUPER + UP")
 hl.unbind("SUPER + DOWN")
+hl.unbind("ALT + LEFT")
+hl.unbind("ALT + RIGHT")
 hl.unbind("SUPER + RETURN")
 hl.unbind("SUPER + SHIFT + RETURN")
 hl.unbind("SUPER + mouse:272")
@@ -89,6 +91,25 @@ local function delete_to_start_of_line()
   end
 end
 
+-- Terminals honor readline/zle's Emacs-style word motions (Alt+B/Alt+F) via
+-- shell config regardless of terminal emulator, whereas GTK/Qt/Electron/web
+-- text fields use Ctrl+Left/Right for word motion.
+local function word_left()
+  if active_window_is_terminal() then
+    send_shortcut_once("ALT", "B")()
+  else
+    send_shortcut_once("CTRL", "LEFT")()
+  end
+end
+
+local function word_right()
+  if active_window_is_terminal() then
+    send_shortcut_once("ALT", "F")()
+  else
+    send_shortcut_once("CTRL", "RIGHT")()
+  end
+end
+
 -- macOS-style window navigation and in-app shortcuts.
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 o.bind("SUPER + W", "Close in app", send_shortcut_once("CTRL", "W"))
@@ -112,6 +133,8 @@ o.bind("SUPER + BRACKETRIGHT", "Forward", send_shortcut_once("ALT", "RIGHT"))
 o.bind("SUPER + G", "Next match", send_shortcut_once("CTRL", "G"))
 o.bind("SUPER + SHIFT + G", "Previous match", send_shortcut_once("CTRL + SHIFT", "G"))
 o.bind("SUPER + BACKSPACE", "Delete to start of line", delete_to_start_of_line)
+o.bind("ALT + LEFT", "Word left", word_left)
+o.bind("ALT + RIGHT", "Word right", word_right)
 
 local omackey = "omarchy-shell shell summon omackey"
 

@@ -16,6 +16,7 @@ On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the 
 | --- | --- |
 | `Super+Backspace` | Delete to the start of the line |
 | `Super+Left` / `Super+Right` | Go to line start / end |
+| `Alt+Left` / `Alt+Right` | Move by word |
 | `Super+T` / `Super+W` | New tab / close in the focused app |
 | `Super+Shift+T` | Reopen a closed tab |
 | `Super+A` / `Super+Z` | Select all / undo |
@@ -24,7 +25,7 @@ On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the 
 | `Super+Tab` | Switch between windows with the overlay enabled |
 | `Super+Q` | Close the focused window |
 
-Application shortcuts send their corresponding Linux key sequences; the focused app determines their behavior. For delete-to-start, Omackey sends `Ctrl+U` to windows tagged `terminal`, and `Shift+Home` followed by `Backspace` elsewhere. `Super+Q` closes the focused window; it does not quit every window belonging to an application.
+Application shortcuts send their corresponding Linux key sequences; the focused app determines their behavior. For delete-to-start, Omackey sends `Ctrl+U` to windows tagged `terminal`, and `Shift+Home` followed by `Backspace` elsewhere. For move-by-word, Omackey sends `Alt+B` / `Alt+F` to windows tagged `terminal`, and `Ctrl+Left` / `Ctrl+Right` elsewhere. `Super+Q` closes the focused window; it does not quit every window belonging to an application.
 
 ## Switcher
 
@@ -40,6 +41,7 @@ Application shortcuts send their corresponding Linux key sequences; the focused 
   also works across monitors and when full-width or fullscreen windows obscure
   other windows.
 - Press `Super+Left` or `Super+Right` to move to the start or end of a line.
+- Press `Alt+Left` or `Alt+Right` to move by word.
 - Press `Super+Up` or `Super+Down` to focus the window in that direction.
 
 ## Application shortcuts
