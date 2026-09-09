@@ -247,7 +247,7 @@ h2 {
 }
 .shortcut-grid {
   display:grid;
-  grid-template-columns:1.15fr 1fr 1fr 1fr;
+  grid-template-columns:repeat(5,1fr);
   gap:14px;
 }
 .shortcut {
@@ -877,4 +877,43 @@ details code {
   .bindings-table kbd {font-size:10px;padding:1px 5px;min-width:22px;}
   .bindings-table small {font-size:11px;}
   .binding-group span {display:block;margin:3px 0 0;}
+}
+
+/* daisyUI tab tokens match the existing site palette. */
+.shortcut-tabs {
+  --color-base-content:var(--ink);
+  --color-base-100:var(--paper);
+  --color-base-300:var(--line);
+  --radius-field:7px;
+  --border:1px;
+  --size-field:.25rem;
+  margin-bottom:22px;
+  gap:12px;
+}
+.shortcut-tabs .tab {
+  font-family:var(--body);
+  background:transparent;
+  border:0;
+  border-radius:0;
+  font-weight:600;
+  min-height:44px;
+}
+.shortcut-tabs .tab[aria-selected="true"] {
+  color:var(--ink);
+}
+.shortcut-tabs .tab:focus-visible,.shortcut-panel:focus-visible {
+  outline:3px solid #7358b7;
+  outline-offset:4px;
+}
+[hidden] {display:none!important;}
+.shortcut-panel {min-width:0;}
+.install-box #copy-status {min-height:36px;padding-block:8px;}
+.hero-keyboard img {mix-blend-mode:normal;}
+@media(max-width:760px) {
+  .shortcut-tabs {gap:0;justify-content:space-between;}
+  .shortcut-tabs .tab {--tab-p:10px;font-size:12px;}
+}
+@media print {
+  .shortcut-tabs {display:none!important;}
+  .shortcut-panel[hidden] {display:block!important;}
 }

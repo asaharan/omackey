@@ -130,7 +130,7 @@ Releases are cut manually and tagged with [semantic versioning](https://semver.o
 
 ## Share Omackey
 
-The landing page is in [`site/`](site/). See the [website guide](docs/website.md) to preview it locally and publish it to `omackey.saharan.dev` with GitHub Pages.
+The landing page is in [`site/`](site/). Run `bun run preview` from the repository root and open `http://localhost:8000`. See the [website guide](docs/website.md) to preview it locally and publish it to `omackey.saharan.dev` with GitHub Pages.
 
 Know someone whose hands still reach for Cmd? Send them this repo.
 

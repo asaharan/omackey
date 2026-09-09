@@ -1,0 +1,7 @@
+{
+  "name": "omackey",
+  "private": true,
+  "scripts": {
+    "preview": "bun scripts/preview.ts"
+  }
+}
