@@ -113,7 +113,7 @@ o.bind("SUPER + G", "Next match", send_shortcut_once("CTRL", "G"))
 o.bind("SUPER + SHIFT + G", "Previous match", send_shortcut_once("CTRL + SHIFT", "G"))
 o.bind("SUPER + BACKSPACE", "Delete to start of line", delete_to_start_of_line)
 
-local omackey = "omarchy-shell shell summon omackey.switcher"
+local omackey = "omarchy-shell shell summon omackey"
 
 local switcher_namespace = "macos-application-switcher"
 local switcher_layers = 0

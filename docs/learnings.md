@@ -21,7 +21,7 @@ both directions while `hyprctl submap` remained `default` throughout.
 Two compositor-side approaches were tested and caused input problems:
 
 1. Directional submap bindings invoked
-   `omarchy-shell shell call omackey.switcher ...` for every arrow press.
+   `omarchy-shell shell call omackey ...` for every arrow press.
    This put process creation and an asynchronous IPC round trip on the input
    path. Repeated navigation could queue commands, delay visible selection,
    and allow late commands to run after the user had released `Super`.

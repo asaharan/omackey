@@ -279,7 +279,7 @@ Item {
 
     root.opened = false
     if (root.shell && typeof root.shell.hide === "function")
-      root.shell.hide((root.manifest && root.manifest.id) || "omackey.switcher")
+      root.shell.hide((root.manifest && root.manifest.id) || "omackey")
 
     if (target) {
       if (target.minimized) target.minimized = false
@@ -305,7 +305,7 @@ Item {
   function commit() {
     if (!root.opened) {
       if (root.shell && typeof root.shell.hide === "function")
-        root.shell.hide((root.manifest && root.manifest.id) || "omackey.switcher")
+        root.shell.hide((root.manifest && root.manifest.id) || "omackey")
       return
     }
     root.dismiss(true)

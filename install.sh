@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-plugin_id="omackey.switcher"
+plugin_id="omackey"
 project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 plugin_dir="${XDG_CONFIG_HOME:-$HOME/.config}/omarchy/plugins/$plugin_id"
 hypr_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
@@ -18,6 +18,7 @@ if [[ $project_dir != "$plugin_dir" ]]; then
   ln -s -- "$project_dir" "$plugin_dir"
 fi
 
+# Always install Mac key bindings
 cp -- "$project_dir/hypr/omackey.lua" "$module_file"
 touch "$bindings_file"
 
@@ -26,8 +27,6 @@ if ! grep -Fq 'require("hypr.omackey")' "$bindings_file"; then
   printf '\n-- BEGIN OMACKEY (managed by install.sh)\nrequire("hypr.omackey")\n-- END OMACKEY\n' >> "$bindings_file"
 fi
 
-omarchy-shell shell rescanPlugins >/dev/null
-omarchy plugin enable "$plugin_id" >/dev/null
 hyprctl reload >/dev/null
 
 errors=$(hyprctl configerrors)
@@ -36,4 +35,18 @@ if [[ -n $errors ]]; then
   exit 1
 fi
 
-echo "Omackey installed. Hold Super and press Tab."
+# Ask user if they want to enable the switcher UI
+echo "Enable Omackey switcher UI? (y/n)"
+read -r enable_switcher
+
+if [[ "$enable_switcher" =~ ^[Yy]$ ]]; then
+  omarchy plugin enable "$plugin_id" >/dev/null
+  echo "Omackey installed with switcher UI. Hold Super and press Tab to switch windows."
+else
+  omarchy plugin disable "$plugin_id" >/dev/null 2>&1 || true
+  echo "Omackey installed with Mac key bindings only. Switcher UI disabled."
+fi
+
+omarchy-shell shell rescanPlugins >/dev/null
+
+echo "Mac key bindings are active: Super+T (new tab), Super+W (close), Super+Q (quit), etc."

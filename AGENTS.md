@@ -4,7 +4,7 @@
 
 - `OmackeySwitcher.qml` is the Quickshell overlay. It owns window discovery, MRU ordering, layout, keyboard focus, pointer handling, and activation.
 - `hypr/omackey.lua` owns compositor-level bindings and behavior that QML cannot intercept.
-- `install.sh` symlinks this checkout into `~/.config/omarchy/plugins/omackey.switcher`, copies the Hyprland module to `~/.config/hypr/omackey.lua`, enables the plugin, and reloads Hyprland. Preserve unrelated user configuration.
+- `install.sh` symlinks this checkout into `~/.config/omarchy/plugins/omackey`, optionally copies the Hyprland module to `~/.config/hypr/omackey.lua` (if switcher is enabled), enables the plugin, and reloads Hyprland. Preserve unrelated user configuration.
 - The model is per-window, not per-application. Every toplevel exposed by `ToplevelManager.toplevels` must get its own tile, including multiple windows from one app and minimized windows.
 
 ## Switcher behavior invariants
@@ -55,4 +55,4 @@ hyprctl submap
 - QML is symlinked from this checkout, but filesystem watching through the symlink can leave the running component stale. `omarchy-shell shell rescanPlugins` may rediscover it without recreating the loaded component; use `omarchy restart shell` when visual behavior does not match the source on disk.
 - Changes to `hypr/omackey.lua` are not live through the plugin symlink. Copy the updated module to `~/.config/hypr/omackey.lua` (or perform a clean reinstall), then run `hyprctl reload` and `hyprctl configerrors`.
 - `install.sh` intentionally refuses to overwrite an existing plugin path. Do not delete or replace that path casually. For a clean reinstall, use the repository's `uninstall.sh` followed by `install.sh`.
-- If installation reaches plugin enablement before the shell discovers the plugin, restart the shell, run `omarchy-shell shell rescanPlugins`, then enable `omackey.switcher` and verify it appears in `omarchy plugin list --json`.
+- If installation reaches plugin enablement before the shell discovers the plugin, restart the shell, run `omarchy-shell shell rescanPlugins`, then enable `omackey` and verify it appears in `omarchy plugin list --json`.

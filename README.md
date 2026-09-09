@@ -42,7 +42,7 @@ Once published, the overlay can be installed with:
 
 ```bash
 omarchy plugin add https://github.com/OWNER/omackey.git --enable
-~/.config/omarchy/plugins/omackey.switcher/install.sh
+~/.config/omarchy/plugins/omackey/install.sh
 ```
 
 The second command installs the Hyprland bindings; Omarchy's plugin manager currently manages shell plugins but not compositor bindings.
