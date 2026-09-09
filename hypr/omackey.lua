@@ -30,6 +30,9 @@ hl.unbind("SUPER + UP")
 hl.unbind("SUPER + DOWN")
 hl.unbind("ALT + LEFT")
 hl.unbind("ALT + RIGHT")
+hl.unbind("ALT + BACKSPACE")
+hl.unbind("ALT + SHIFT + LEFT")
+hl.unbind("ALT + SHIFT + RIGHT")
 hl.unbind("SUPER + RETURN")
 hl.unbind("SUPER + SHIFT + RETURN")
 hl.unbind("SUPER + mouse:272")
@@ -135,6 +138,9 @@ o.bind("SUPER + SHIFT + G", "Previous match", send_shortcut_once("CTRL + SHIFT",
 o.bind("SUPER + BACKSPACE", "Delete to start of line", delete_to_start_of_line)
 o.bind("ALT + LEFT", "Word left", word_left)
 o.bind("ALT + RIGHT", "Word right", word_right)
+o.bind("ALT + BACKSPACE", "Delete previous word", send_shortcut_once("CTRL", "BACKSPACE"))
+o.bind("ALT + SHIFT + LEFT", "Select word left", send_shortcut_once("CTRL + SHIFT", "LEFT"))
+o.bind("ALT + SHIFT + RIGHT", "Select word right", send_shortcut_once("CTRL + SHIFT", "RIGHT"))
 
 local omackey = "omarchy-shell shell summon asaharan.omackey"
 

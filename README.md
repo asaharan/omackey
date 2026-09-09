@@ -17,6 +17,8 @@ On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the 
 | `Super+Backspace` | Delete to the start of the line |
 | `Super+Left` / `Super+Right` | Go to line start / end |
 | `Alt+Left` / `Alt+Right` | Move by word |
+| `Alt+Backspace` | Delete previous word (`Ctrl+Backspace`) |
+| `Alt+Shift+Left` / `Alt+Shift+Right` | Extend or shrink selection by word (`Ctrl+Shift+Left` / `Ctrl+Shift+Right`) |
 | `Super+T` / `Super+W` | New tab / close in the focused app |
 | `Super+Shift+T` | Reopen a closed tab |
 | `Super+A` / `Super+Z` | Select all / undo |
