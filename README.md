@@ -86,10 +86,17 @@ The overlay can also be installed through the plugin manager:
 
 ```bash
 omarchy plugin add https://github.com/asaharan/omackey.git --enable
-~/.config/omarchy/plugins/asaharan.omackey/install.sh
+~/.config/omarchy/plugins/asaharan.omackey/enable-switcher.sh
 ```
 
-The second command installs the Hyprland bindings; Omarchy's plugin manager currently manages shell plugins but not compositor bindings.
+The second command installs or refreshes the Hyprland bindings and enables the
+switcher. Run it after plugin-manager updates too: the compositor module is a
+separate copy, so updating the plugin alone can leave old Cmd+Tab bindings active.
+
+The Omarchy menu's **Plugin from repo** option does not run `install.sh`, so it
+does not show Omackey's switcher setup prompt. After adding the repository, run
+the second command above in a terminal to finish setup. To choose interactively
+instead, run `~/.config/omarchy/plugins/asaharan.omackey/install.sh`.
 
 ## Updating
 

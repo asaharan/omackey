@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Enabling the switcher now installs or refreshes its Hyprland bindings, including
+  stale plugin IDs left behind by plugin-manager updates.
+- Discover the plugin before enabling it during installation, and validate the
+  switcher choice before changing configuration. Explicit `--enable-switcher`
+  and `--disable-switcher` installer options support setup without a prompt.
+- Clarify the required setup step after Omarchy's Plugin from repo installation.
+
 ### Added
 
 - `Alt+Left`/`Alt+Right` move by word, sending `Ctrl+Left`/`Ctrl+Right` to

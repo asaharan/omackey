@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-plugin_id="asaharan.omackey"
-
-omarchy plugin enable "$plugin_id" >/dev/null
-omarchy-shell shell rescanPlugins >/dev/null
-
-echo "Omackey switcher UI enabled. Hold Super and press Tab to switch windows."
+project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+# Plugin-manager installs and updates do not install the compositor module.
+exec bash "$project_dir/install.sh" --enable-switcher

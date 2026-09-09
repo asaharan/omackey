@@ -8,6 +8,29 @@ hypr_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
 bindings_file="$hypr_dir/bindings.lua"
 module_file="$hypr_dir/omackey.lua"
 
+enable_switcher=""
+case "${1:-}" in
+  --enable-switcher) enable_switcher=y ;;
+  --disable-switcher) enable_switcher=n ;;
+  --help|-h)
+    echo "Usage: $0 [--enable-switcher|--disable-switcher]"
+    exit 0
+    ;;
+  "") ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+if (( $# > 1 )); then
+  echo "Expected at most one option" >&2
+  exit 1
+fi
+if [[ -z $enable_switcher ]]; then
+  echo "Enable Omackey switcher UI? (y/n)"
+  if ! read -r enable_switcher || [[ ! $enable_switcher =~ ^[YyNn]$ ]]; then
+    echo "Choose y/n, or use --enable-switcher or --disable-switcher." >&2
+    exit 1
+  fi
+fi
+
 mkdir -p -- "$(dirname -- "$plugin_dir")" "$hypr_dir"
 
 # Create symlink if not already present
@@ -43,9 +66,8 @@ if [[ -n $errors ]]; then
   exit 1
 fi
 
-# Ask user if they want to enable the switcher UI
-echo "Enable Omackey switcher UI? (y/n)"
-read -r enable_switcher
+# Discover newly installed plugins before trying to enable them.
+omarchy-shell shell rescanPlugins >/dev/null
 
 if [[ "$enable_switcher" =~ ^[Yy]$ ]]; then
   omarchy plugin enable "$plugin_id" >/dev/null
@@ -54,7 +76,5 @@ else
   omarchy plugin disable "$plugin_id" >/dev/null 2>&1 || true
   echo "Omackey switcher UI disabled."
 fi
-
-omarchy-shell shell rescanPlugins >/dev/null
 
 echo "✓ Mac key bindings are active: Super+T (new tab), Super+W (close), Super+Q (quit), etc."
