@@ -136,7 +136,7 @@ o.bind("SUPER + BACKSPACE", "Delete to start of line", delete_to_start_of_line)
 o.bind("ALT + LEFT", "Word left", word_left)
 o.bind("ALT + RIGHT", "Word right", word_right)
 
-local omackey = "omarchy-shell shell summon omackey"
+local omackey = "omarchy-shell shell summon asaharan.omackey"
 
 local switcher_namespace = "macos-application-switcher"
 local switcher_layers = 0

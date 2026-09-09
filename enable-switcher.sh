@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-plugin_id="omackey"
+plugin_id="asaharan.omackey"
 
 omarchy plugin enable "$plugin_id" >/dev/null
 omarchy-shell shell rescanPlugins >/dev/null

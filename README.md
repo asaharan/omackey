@@ -84,7 +84,7 @@ The overlay can also be installed through the plugin manager:
 
 ```bash
 omarchy plugin add https://github.com/asaharan/omackey.git --enable
-~/.config/omarchy/plugins/omackey/install.sh
+~/.config/omarchy/plugins/asaharan.omackey/install.sh
 ```
 
 The second command installs the Hyprland bindings; Omarchy's plugin manager currently manages shell plugins but not compositor bindings.
@@ -97,7 +97,7 @@ updates are pulled the same way.
 If you installed via `omarchy plugin add` (or a manual `./install.sh` clone):
 
 ```bash
-cd ~/.config/omarchy/plugins/omackey
+cd ~/.config/omarchy/plugins/asaharan.omackey
 git pull
 ./install.sh
 ```
