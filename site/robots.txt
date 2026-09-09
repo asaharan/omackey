@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://omackey.saharan.dev/sitemap.xml

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf0f5">
+  <title>Omackey — New OS. Same muscle memory.</title>
+  <meta name="description" content="Bring your Mac keyboard habits to Omarchy. Familiar shortcuts, delete to line start, and a per-window switcher. Open source and made for your muscle memory.">
+  <link rel="canonical" href="https://omackey.saharan.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Omackey — New OS. Same muscle memory.">
+  <meta property="og:description" content="Your hands still think you're on a Mac. Let them. Mac-style shortcuts for Omarchy.">
+  <meta property="og:url" content="https://omackey.saharan.dev/">
+  <meta property="og:image" content="https://omackey.saharan.dev/assets/omackey-keyboard-hero.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header wrap">
+    <a class="brand" href="#" aria-label="Omackey home"><span class="brand-key" aria-hidden="true">⌘</span> omackey<span class="brand-dot">.</span></a>
+    <nav aria-label="Main navigation"><a href="#shortcuts">The shortcuts</a><a href="#install">Install</a><a class="repo-link" href="https://github.com/asaharan/omackey">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> A little familiarity for Omarchy</p>
+        <h1 id="hero-title">New OS.<br>Same <em>muscle<br class="desktop-break"> memory.</em></h1>
+        <p class="intro">You moved to Linux. Your hands stayed on a Mac. Bring your favorite shortcuts with you.</p>
+        <div class="hero-actions"><a class="button primary" href="#install">Meet your old shortcuts <span aria-hidden="true">↗</span></a><a class="text-link" href="#playground">Try a little demo <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-note">Made for Omarchy <span>·</span> Open source <span>·</span> MIT licensed</p>
+      </div>
+      <div class="playground" id="playground">
+        <div class="demo-heading"><span class="eyebrow">The muscle-memory test</span><span class="demo-tag">Interactive demo</span></div>
+        <div class="editor">
+          <div class="editor-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>one familiar keystroke</span></div>
+          <div class="editor-body"><span class="line-number" aria-hidden="true">1</span><div class="demo-line"><span id="demo-before">new machine, same habits</span><span class="cursor" aria-hidden="true"></span><span class="demo-after">.</span></div></div>
+          <div class="editor-footer"><span id="demo-status" role="status">Delete to the start. Keep what comes after.</span><span aria-hidden="true">↵</span></div>
+        </div>
+        <div class="key-stage" aria-hidden="true"><div class="large-key command-key"><span>⌘</span><small>command</small></div><span class="key-plus">+</span><div class="large-key delete-key"><span>⌫</span><small>delete</small></div></div>
+        <button class="demo-button" id="run-demo" type="button">Try Cmd + Backspace <span aria-hidden="true">↗</span></button>
+        <p class="demo-caption">Mac’s Cmd key is Super in Omarchy.<br>This demo illustrates the shortcut inside this page.</p>
+      </div>
+    </section>
+    <div class="habit-strip"><div class="wrap"><span>A familiar feeling.</span><p><kbd>⌘</kbd> <kbd>T</kbd> a fresh tab <i> / </i> <kbd>⌘</kbd> <kbd>S</kbd> a quick save <i> / </i> <kbd>⌘</kbd> <kbd>Tab</kbd> your next window</p></div></div>
+    <section class="shortcuts wrap section" id="shortcuts" aria-labelledby="shortcuts-title">
+      <div class="section-heading"><div><p class="eyebrow">Less second-guessing. More doing.</p><h2 id="shortcuts-title">Your fingers know<br>the way.</h2></div><p>For the Mac on your desk and the Omarchy machine beside it. Or the Mac you just left behind.</p></div>
+      <div class="shortcut-grid">
+        <article class="shortcut feature-shortcut"><div class="shortcut-symbol" aria-hidden="true">⌫</div><p class="eyebrow">The one you keep reaching for</p><h3>Delete to line start.</h3><p>That instinctive Cmd+Backspace, right where you expect it.</p><div class="chord"><kbd>⌘</kbd><span>+</span><kbd>Backspace</kbd></div></article>
+        <article class="shortcut"><span class="mini-symbol" aria-hidden="true">↔</span><h3>Find your place.</h3><p>Jump to the beginning or end of a line.</p><div class="chord"><kbd>⌘</kbd><span>+</span><kbd>←</kbd><span>/</span><kbd>→</kbd></div></article>
+        <article class="shortcut"><span class="mini-symbol" aria-hidden="true">⊞</span><h3>Tabs, on instinct.</h3><p>Open a tab. Close in app. Shift+Cmd+T brings a closed tab back.</p><div class="chord"><kbd>⌘</kbd><span>+</span><kbd>T</kbd><span>/</span><kbd>W</kbd></div></article>
+        <article class="shortcut"><span class="mini-symbol" aria-hidden="true">↶</span><h3>The everyday essentials.</h3><p>Select all, undo, find, and save. One less thing to think about.</p><div class="chord"><kbd>⌘</kbd><span>+</span><kbd>A</kbd><kbd>Z</kbd><kbd>F</kbd><kbd>S</kbd></div></article>
+      </div>
+      <p class="fine-print">Shortcuts follow the focused app’s behavior. Cmd+Q closes the focused window. <a href="https://github.com/asaharan/omackey#your-everyday-keys-back-where-you-expect-them">See all shortcuts and behavior notes ↗</a></p>
+    </section>
+    <section class="switcher-section section" aria-labelledby="switcher-title"><div class="wrap switcher-layout">
+      <div><p class="eyebrow">Find the window. Keep your flow.</p><h2 id="switcher-title">Hold. Choose.<br><em>You're there.</em></h2><p>Hold Cmd and press Tab to cycle through individual windows. Release to focus your choice. Every window gets its own tile—even when they belong to the same app.</p><p class="switcher-detail">Add Shift to go backwards. Use Cmd + <kbd>`</kbd> to cycle within the current application.</p><a class="text-link" href="https://github.com/asaharan/omackey#switcher">Explore the optional switcher <span aria-hidden="true">↗</span></a></div>
+      <div class="switcher-demo"><div class="switcher-label"><span>One tile. One window.</span><span>Illustration</span></div><div class="window-tiles"><div class="window-tile"><span class="app-icon code-icon">&lt;/&gt;</span><strong>Editor</strong><small>the next idea</small></div><div class="window-tile selected"><span class="app-icon browser-icon">◎</span><strong>Browser</strong><small>the docs</small><span class="selected-label">Selected</span></div><div class="window-tile"><span class="app-icon terminal-icon">&gt;_</span><strong>Terminal</strong><small>one more command</small></div></div><div class="switcher-bottom"><span><kbd>⌘</kbd> + <kbd>Tab</kbd></span><span>Release Cmd to focus ↵</span></div></div>
+    </div></section>
+    <section class="art-section wrap section" aria-labelledby="art-title"><div class="art-heading"><p class="eyebrow">A keyboard you already know</p><h2 id="art-title">Keep the good habits.</h2><p>A small change to your setup. A familiar feeling all day.</p></div><figure><img src="assets/omackey-keyboard-hero.png" alt="A silver Mac keyboard with Command and shortcut keys highlighted, alongside the main Omackey remaps." width="1536" height="1024" loading="lazy"><figcaption>Shortcut field guide · AI-generated keyboard illustration <a href="assets/omackey-keyboard-hero.png" download>Save the guide ↓</a></figcaption></figure></section>
+    <section class="install-section section" id="install" aria-labelledby="install-title"><div class="wrap install-layout"><div><p class="eyebrow">Make yourself at home</p><h2 id="install-title">Your hands will<br>thank you.</h2><p>Run these commands in your Omarchy session. The installer adds the bindings and asks whether you want the window switcher.</p><a class="text-link" href="https://github.com/asaharan/omackey">View the source on GitHub <span aria-hidden="true">↗</span></a></div><div class="install-box"><div class="install-bar"><span>Terminal · Omarchy</span><button id="copy-install" type="button">Copy commands <span aria-hidden="true">⧉</span></button></div><pre><code id="install-code">git clone https://github.com/asaharan/omackey.git
+cd omackey
+./install.sh</code></pre><p id="copy-status" role="status">Mac-style bindings, with an optional switcher UI.</p></div></div></section>
+    <section class="faq wrap section" aria-labelledby="faq-title"><h2 id="faq-title">A few things to know.</h2><div class="faq-list"><details><summary>Do I need an Apple keyboard?</summary><p>The bindings use Super, which is normally the Command key on a Mac keyboard and the Windows key on a PC keyboard. The artwork uses a Mac keyboard because that’s where these habits come from.</p></details><details><summary>Does it work exactly like macOS everywhere?</summary><p>Omackey maps familiar shortcuts to Linux key sequences. Apps decide how to handle them. Delete-to-start sends Ctrl+U to windows tagged as terminals, and Shift+Home followed by Backspace elsewhere. Cmd+Q closes the focused window, rather than quitting all windows of an application.</p></details><details><summary>Can I use it without the switcher?</summary><p>Yes. Choose no when the installer asks about the switcher UI. The Mac-style application bindings remain installed. You can enable the UI later with <code>./enable-switcher.sh</code>.</p></details><details><summary>How do I remove it?</summary><p>Run <code>./uninstall.sh</code> from the checkout to remove Omackey’s integration. The repository’s README has the installation and management commands.</p></details></div></section>
+  </main>
+  <footer class="footer wrap"><a class="brand" href="#"><span class="brand-key" aria-hidden="true">⌘</span> omackey<span class="brand-dot">.</span></a><p>New OS. Same muscle memory.</p><div><a href="https://github.com/asaharan/omackey/issues">Feedback</a><a href="https://github.com/asaharan/omackey/blob/HEAD/LICENSE">MIT license</a><a href="https://github.com/asaharan">Made by Saharan ↗</a></div></footer>
+</body>
+</html>
