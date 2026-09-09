@@ -2,11 +2,15 @@
   "schemaVersion": 1,
   "id": "asaharan.omackey",
   "name": "Omackey",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "seedheprod",
   "license": "MIT",
   "description": "macOS-style per-window switching and keyboard navigation for Omarchy",
-  "kinds": ["overlay"],
+  "kinds": [
+    "overlay"
+  ],
   "keepLoaded": true,
-  "entryPoints": { "overlay": "OmackeySwitcher.qml" }
+  "entryPoints": {
+    "overlay": "OmackeySwitcher.qml"
+  }
 }
