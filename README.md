@@ -1,6 +1,30 @@
 # Omackey
 
-Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware per-window switcher.
+**New OS. Same muscle memory.**
+
+Mac-style shortcuts for developers who move between macOS and Omarchy—or have just made the switch.
+
+![Omackey: Mac keyboard with highlighted shortcut keys and six main remaps](assets/omackey-keyboard-hero.png)
+
+Your hands reach for `Cmd+Backspace` to delete to the start of a line. Then you remember which machine you're using. Omackey brings that habit, familiar application shortcuts, and a theme-aware window switcher to Omarchy.
+
+On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the name used by Omarchy.
+
+## Your everyday keys, back where you expect them
+
+| Shortcut | With Omackey |
+| --- | --- |
+| `Super+Backspace` | Delete to the start of the line |
+| `Super+Left` / `Super+Right` | Go to line start / end |
+| `Super+T` / `Super+W` | New tab / close in the focused app |
+| `Super+Shift+T` | Reopen a closed tab |
+| `Super+A` / `Super+Z` | Select all / undo |
+| `Super+F` / `Super+S` | Find / save |
+| `Super+L` | Focus the location bar |
+| `Super+Tab` | Switch between windows with the overlay enabled |
+| `Super+Q` | Close the focused window |
+
+Application shortcuts send their corresponding Linux key sequences; the focused app determines their behavior. For delete-to-start, Omackey sends `Ctrl+U` to windows tagged `terminal`, and `Shift+Home` followed by `Backspace` elsewhere. `Super+Q` closes the focused window; it does not quit every window belonging to an application.
 
 ## Switcher
 
@@ -20,7 +44,7 @@ Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware pe
 
 ## Application shortcuts
 
-- Use `Super+T`, `W`, `Q`, `A`, `Z`, `F`, `S`, `O`, `P`, `N`, `R`, and `L`
+- Use `Super+T`, `W`, `A`, `Z`, `F`, `S`, `O`, `P`, `N`, `R`, and `L`
   for their familiar macOS-style application actions.
 - Use `Super+Shift+T` to reopen a closed tab, `Super+Shift+Z` to redo, and
   `Super+Shift+N` to open a private window.
@@ -31,6 +55,8 @@ Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware pe
 ## Installation
 
 ```bash
+git clone https://github.com/asaharan/omackey.git
+cd omackey
 ./install.sh
 ```
 
@@ -51,14 +77,22 @@ Run `./uninstall.sh` to remove all Omackey integration.
 
 ## Native Omarchy plugin install
 
-Once published, the overlay can be installed with:
+The overlay can also be installed through the plugin manager:
 
 ```bash
-omarchy plugin add https://github.com/OWNER/omackey.git --enable
+omarchy plugin add https://github.com/asaharan/omackey.git --enable
 ~/.config/omarchy/plugins/omackey/install.sh
 ```
 
 The second command installs the Hyprland bindings; Omarchy's plugin manager currently manages shell plugins but not compositor bindings.
+
+## Share Omackey
+
+Know someone whose hands still reach for Cmd? Send them this repo.
+
+<img src="assets/omackey-muscle-memory-square.png" alt="Your hands still think you're on a Mac. Let them. Omackey brings Mac-style shortcuts to Omarchy." width="560">
+
+[Release post and short social copy](docs/release-post.md) · [Launch ideas](docs/publicity-ideas.md) · [Artwork prompts](docs/artwork-prompts.md)
 
 ## License
 
