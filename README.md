@@ -88,6 +88,8 @@ The second command installs the Hyprland bindings; Omarchy's plugin manager curr
 
 ## Share Omackey
 
+The landing page is in [`site/`](site/). See the [website guide](docs/website.md) to preview it locally and publish it to `omackey.saharan.dev` with GitHub Pages.
+
 Know someone whose hands still reach for Cmd? Send them this repo.
 
 <img src="assets/omackey-muscle-memory-square.png" alt="Your hands still think you're on a Mac. Let them. Omackey brings Mac-style shortcuts to Omarchy." width="560">
