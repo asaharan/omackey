@@ -234,8 +234,11 @@ hl.define_submap("omackey", function()
   o.bind("SUPER + SUPER_R", nil, commit_switcher, { release = true })
 
   -- QML cannot cancel Hyprland's compositor-level mouse move/resize actions.
-  o.bind("SUPER + mouse:272", nil, hl.dsp.no_op(), { mouse = true })
-  o.bind("SUPER + mouse:273", nil, hl.dsp.no_op(), { mouse = true })
+  -- Mark these non-consuming so the button press/release still reaches the
+  -- focused QML surface (otherwise Hyprland's bind match swallows clicks on
+  -- switcher tiles entirely while Super is held).
+  o.bind("SUPER + mouse:272", nil, hl.dsp.no_op(), { mouse = true, non_consuming = true })
+  o.bind("SUPER + mouse:273", nil, hl.dsp.no_op(), { mouse = true, non_consuming = true })
 end)
 
 -- A configuration reload can recreate this module while the old switcher
