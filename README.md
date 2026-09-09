@@ -12,8 +12,21 @@ Mac-style keyboard navigation for Omarchy, beginning with a fast, theme-aware pe
 
 ## Window navigation
 
-- Press `Super+Left` or `Super+Right` to focus the window in that direction.
-- When the focused window is full-width or fullscreen, the same shortcuts cycle through the other windows on its workspace, including windows hidden behind it.
+- Press `Ctrl+Left` or `Ctrl+Right` to focus the window in that direction. This
+  also works across monitors and when full-width or fullscreen windows obscure
+  other windows.
+- Press `Super+Left` or `Super+Right` to move to the start or end of a line.
+- Press `Super+Up` or `Super+Down` to focus the window in that direction.
+
+## Application shortcuts
+
+- Use `Super+T`, `W`, `Q`, `A`, `Z`, `F`, `S`, `O`, `P`, `N`, `R`, and `L`
+  for their familiar macOS-style application actions.
+- Use `Super+Shift+T` to reopen a closed tab, `Super+Shift+Z` to redo, and
+  `Super+Shift+N` to open a private window.
+- Use `Super+[` and `Super+]` for back and forward, and `Super+G` or
+  `Super+Shift+G` for the next or previous match.
+- Use `Super+Backspace` to delete to the start of the line.
 
 ## Development install
 
