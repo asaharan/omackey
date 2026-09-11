@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Hardened `install.sh` and `uninstall.sh` against symlink attacks on the
+  Hyprland config files they manage: writes now happen via exclusively
+  created temp files and atomic rename, existing destinations are refused
+  unless they are plain files, and the tools they invoke resolve through a
+  closed, trusted `PATH` instead of the ambient environment.
+- `install.sh` now stages the new bindings transactionally and rolls back
+  atomically to the previous configuration if `hyprctl reload` fails or
+  reports config errors.
+
 ### Fixed
 
 - Enabling the switcher now installs or refreshes its Hyprland bindings, including

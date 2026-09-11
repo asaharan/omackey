@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
+
+PATH=/usr/bin:/bin
+export PATH
 
 plugin_id="asaharan.omackey"
 

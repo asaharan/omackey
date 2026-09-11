@@ -1,10 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
+
+# Closed, trusted PATH: every external tool below must resolve to a known
+# system binary, never something earlier in an attacker-influenced PATH.
+PATH=/usr/bin:/bin
+export PATH
 
 plugin_id="asaharan.omackey"
 project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-plugin_dir="${XDG_CONFIG_HOME:-$HOME/.config}/omarchy/plugins/$plugin_id"
-hypr_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+plugin_dir="$config_home/omarchy/plugins/$plugin_id"
+hypr_dir="$config_home/hypr"
 bindings_file="$hypr_dir/bindings.lua"
 module_file="$hypr_dir/omackey.lua"
 
@@ -33,6 +39,26 @@ fi
 
 mkdir -p -- "$(dirname -- "$plugin_dir")" "$hypr_dir"
 
+# Refuse to write into $hypr_dir unless it is a real directory we own.
+# Never follow it if it turns out to be a symlink.
+if [[ -L $hypr_dir || ! -d $hypr_dir || ! -O $hypr_dir ]]; then
+  echo "Error: $hypr_dir is not a plain directory owned by the current user" >&2
+  exit 1
+fi
+
+# Refuse to treat an existing path as one of our managed files unless it is
+# a plain regular file. A symlink or any other object is a foreign
+# destination and must not be read from or written through.
+guard_plain_file() {
+  local path=$1
+  if [[ -e $path && ( -L $path || ! -f $path ) ]]; then
+    echo "Error: $path exists and is not a plain file" >&2
+    exit 1
+  fi
+}
+guard_plain_file "$module_file"
+guard_plain_file "$bindings_file"
+
 # Create symlink if not already present
 if [[ $project_dir != "$plugin_dir" ]]; then
   if [[ -L $plugin_dir ]]; then
@@ -49,22 +75,71 @@ if [[ $project_dir != "$plugin_dir" ]]; then
   fi
 fi
 
-# Always install Mac key bindings
-cp -- "$project_dir/hypr/omackey.lua" "$module_file"
-touch "$bindings_file"
+# Stage the new module + bindings content in freshly created, exclusively
+# named temp files in the same directory, and keep a copy of whatever they
+# previously contained so a failed reload can be rolled back atomically.
+new_module_tmp=$(mktemp -- "$module_file.XXXXXX")
+cp -- "$project_dir/hypr/omackey.lua" "$new_module_tmp"
 
-if ! grep -Fq 'require("hypr.omackey")' "$bindings_file"; then
-  cp -- "$bindings_file" "$bindings_file.omackey-backup"
-  printf '\n-- BEGIN OMACKEY (managed by install.sh)\nrequire("hypr.omackey")\n-- END OMACKEY\n' >> "$bindings_file"
+module_backup=""
+if [[ -e $module_file ]]; then
+  module_backup=$(mktemp -- "$module_file.rollback.XXXXXX")
+  cp -- "$module_file" "$module_backup"
 fi
 
-hyprctl reload >/dev/null
+bindings_existed=0
+bindings_backup=""
+if [[ -e $bindings_file ]]; then
+  bindings_existed=1
+  bindings_backup=$(mktemp -- "$bindings_file.rollback.XXXXXX")
+  cp -- "$bindings_file" "$bindings_backup"
+fi
 
-errors=$(hyprctl configerrors)
-if [[ -n $errors ]]; then
-  printf '%s\n' "$errors" >&2
+new_bindings_tmp=$(mktemp -- "$bindings_file.XXXXXX")
+if [[ $bindings_existed -eq 1 ]]; then
+  cp -- "$bindings_file" "$new_bindings_tmp"
+fi
+if ! grep -Fq 'require("hypr.omackey")' "$new_bindings_tmp"; then
+  printf '\n-- BEGIN OMACKEY (managed by install.sh)\nrequire("hypr.omackey")\n-- END OMACKEY\n' >> "$new_bindings_tmp"
+fi
+
+cleanup_backups() {
+  [[ -n $module_backup ]] && rm -f -- "$module_backup"
+  [[ -n $bindings_backup ]] && rm -f -- "$bindings_backup"
+}
+
+rollback() {
+  if [[ -n $module_backup ]]; then
+    mv -f -- "$module_backup" "$module_file"
+  else
+    rm -f -- "$module_file"
+  fi
+  if [[ -n $bindings_backup ]]; then
+    mv -f -- "$bindings_backup" "$bindings_file"
+  elif [[ $bindings_existed -eq 0 ]]; then
+    rm -f -- "$bindings_file"
+  fi
+  hyprctl reload >/dev/null 2>&1 || true
+}
+
+# Commit atomically: rename() replaces the destination in place and never
+# follows a symlink that might appear there, so this is safe even if the
+# guard above raced with something recreating the path.
+mv -f -- "$new_module_tmp" "$module_file"
+mv -f -- "$new_bindings_tmp" "$bindings_file"
+
+reload_ok=1
+hyprctl reload >/dev/null 2>&1 || reload_ok=0
+errors=$(hyprctl configerrors 2>/dev/null || true)
+
+if [[ $reload_ok -eq 0 || -n $errors ]]; then
+  rollback
+  echo "Error: Hyprland reload/config validation failed; previous configuration restored." >&2
+  [[ -n $errors ]] && printf '%s\n' "$errors" >&2
   exit 1
 fi
+
+cleanup_backups
 
 # Discover newly installed plugins before trying to enable them.
 omarchy-shell shell rescanPlugins >/dev/null
