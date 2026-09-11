@@ -19,6 +19,9 @@ On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the 
 | `Alt+Left` / `Alt+Right` | Move by word |
 | `Alt+Backspace` | Delete previous word (`Ctrl+Backspace`) |
 | `Alt+Shift+Left` / `Alt+Shift+Right` | Extend or shrink selection by word (`Ctrl+Shift+Left` / `Ctrl+Shift+Right`) |
+| `Super+Shift+Left` / `Super+Shift+Right` | Extend selection to line start / end (`Shift+Home` / `Shift+End`) |
+| `Super+Enter` / `Ctrl+Enter` | Open the default terminal |
+| `Super+Shift+Enter` / `Ctrl+Shift+Enter` | Open the default browser |
 | `Super+T` / `Super+W` | New tab / close in the focused app |
 | `Super+Shift+T` | Reopen a closed tab |
 | `Super+A` / `Super+Z` | Select all / undo |
@@ -43,6 +46,7 @@ Application shortcuts send their corresponding Linux key sequences; the focused 
   also works across monitors and when full-width or fullscreen windows obscure
   other windows.
 - Press `Super+Left` or `Super+Right` to move to the start or end of a line.
+- Press `Super+Shift+Left` or `Super+Shift+Right` to select to the start or end of a line.
 - Press `Alt+Left` or `Alt+Right` to move by word.
 - Press `Super+Up` or `Super+Down` to focus the window in that direction.
 
@@ -55,6 +59,8 @@ Application shortcuts send their corresponding Linux key sequences; the focused 
 - Use `Super+[` and `Super+]` for back and forward, and `Super+G` or
   `Super+Shift+G` for the next or previous match.
 - Use `Super+Backspace` to delete to the start of the line.
+- Use `Super+Enter` or `Ctrl+Enter` to open the default terminal.
+- Use `Super+Shift+Enter` or `Ctrl+Shift+Enter` to open the default browser.
 
 ## Installation
 
