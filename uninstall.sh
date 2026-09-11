@@ -11,8 +11,28 @@ project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 plugin_dir="$config_home/omarchy/plugins/$plugin_id"
 hypr_dir="$config_home/hypr"
-bindings_file="$hypr_dir/bindings.lua"
-module_file="$hypr_dir/omackey.lua"
+
+# Refuse to operate on $hypr_dir unless it is a real directory we own. Never
+# follow it if it turns out to be a symlink.
+if [[ -L $hypr_dir || ! -d $hypr_dir || ! -O $hypr_dir ]]; then
+  echo "Error: $hypr_dir is not a plain directory owned by the current user" >&2
+  exit 1
+fi
+
+# Pin the directory's identity by opening it once, immediately after the
+# check above, and route every later create/read/rename/unlink through this
+# file descriptor (via /proc/self/fd) instead of re-resolving $hypr_dir by
+# pathname. Without this, $hypr_dir could be renamed or replaced between the
+# check and any of the operations below, redirecting our writes into a
+# different, attacker-controlled tree.
+exec {hypr_fd}<"$hypr_dir" || { echo "Error: unable to open $hypr_dir" >&2; exit 1; }
+hypr_at="/proc/self/fd/$hypr_fd"
+if [[ ! -d $hypr_at || $(stat -c '%u' -- "$hypr_at") != "$(id -u)" ]]; then
+  echo "Error: could not verify ownership/type of the opened $hypr_dir" >&2
+  exit 1
+fi
+bindings_file="$hypr_at/bindings.lua"
+module_file="$hypr_at/omackey.lua"
 
 # Refuse to touch an existing path unless it is a plain regular file. A
 # symlink or any other object is a foreign destination: never read through
