@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-10-08
+
+### Changed
+
+- Manifest author is now `asaharan`.
+- Removed the `Ctrl+Enter` / `Ctrl+Shift+Enter` terminal and browser
+  bindings; use `Super+Enter` / `Super+Shift+Enter`.
+
 ## [0.1.6] - 2026-10-08
 
 ### Security
@@ -60,5 +68,6 @@ Initial release.
 - Native Omarchy plugin manifest (`manifest.json`) for installation via
   `omarchy plugin add`.
 
+[0.1.7]: https://github.com/asaharan/omackey/releases/tag/v0.1.7
 [0.1.6]: https://github.com/asaharan/omackey/releases/tag/v0.1.6
 [0.1.0]: https://github.com/asaharan/omackey/releases/tag/v0.1.0
