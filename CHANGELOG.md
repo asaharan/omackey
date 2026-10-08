@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-10-08
+
 ### Security
 
 - Hardened `install.sh` and `uninstall.sh` against symlink attacks on the
@@ -20,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- With the switcher disabled, Omackey no longer overrides `Super+Tab`,
+  ``Super+` `` or `Super+Escape`; Omarchy's defaults stay in place.
+  `disable-switcher.sh` now goes through `install.sh --disable-switcher`.
 - Enabling the switcher now installs or refreshes its Hyprland bindings, including
   stale plugin IDs left behind by plugin-manager updates.
 - Discover the plugin before enabling it during installation, and validate the
@@ -29,6 +34,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Super+Alt+T` toggles floating/tiling and `Super+Alt+\`` toggles the
+  scratchpad, replacing Omarchy's `Super+T` and `Super+S`, which are now
+  New tab and Save.
 - `Alt+Left`/`Alt+Right` move by word, sending `Ctrl+Left`/`Ctrl+Right` to
   most apps and `Alt+B`/`Alt+F` to windows tagged `terminal`.
 
@@ -52,4 +60,5 @@ Initial release.
 - Native Omarchy plugin manifest (`manifest.json`) for installation via
   `omarchy plugin add`.
 
+[0.1.6]: https://github.com/asaharan/omackey/releases/tag/v0.1.6
 [0.1.0]: https://github.com/asaharan/omackey/releases/tag/v0.1.0
