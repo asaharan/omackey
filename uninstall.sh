@@ -61,6 +61,8 @@ if [[ -f $bindings_file ]]; then
 fi
 
 rm -f -- "$module_file"
+rm -f -- "${XDG_STATE_HOME:-$HOME/.local/state}/omackey/switcher-disabled"
+rmdir -- "${XDG_STATE_HOME:-$HOME/.local/state}/omackey" 2>/dev/null || true
 omarchy plugin disable "$plugin_id" >/dev/null 2>&1 || true
 
 if [[ -L $plugin_dir && $(readlink -f -- "$plugin_dir") == "$project_dir" ]]; then

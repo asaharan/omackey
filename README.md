@@ -29,6 +29,8 @@ On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the 
 | `Super+L` | Focus the location bar |
 | `Super+Tab` | Switch between windows with the overlay enabled |
 | `Super+Q` | Close the focused window |
+| `Super+Alt+T` | Toggle floating/tiling (moved from `Super+T`) |
+| `Super+Alt+`` ` ``  | Toggle the scratchpad (moved from `Super+S`) |
 
 Application shortcuts send their corresponding Linux key sequences; the focused app determines their behavior. For delete-to-start, Omackey sends `Ctrl+U` to windows tagged `terminal`, and `Shift+Home` followed by `Backspace` elsewhere. For move-by-word, Omackey sends `Alt+B` / `Alt+F` to windows tagged `terminal`, and `Ctrl+Left` / `Ctrl+Right` elsewhere. `Super+Q` closes the focused window; it does not quit every window belonging to an application.
 
@@ -80,7 +82,7 @@ After installation, Mac key bindings are immediately active. You can manage the 
 
 ```bash
 ./enable-switcher.sh   # Enable switcher UI overlay
-./disable-switcher.sh  # Disable switcher UI overlay
+./disable-switcher.sh  # Disable switcher UI overlay and restore Omarchy's Super+Tab, Super+` and Super+Escape
 ./install.sh           # Re-run install to be prompted
 ```
 

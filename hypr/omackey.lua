@@ -7,11 +7,26 @@ hl.config({
   },
 })
 
-hl.unbind("SUPER + TAB")
-hl.unbind("SUPER + SHIFT + TAB")
-hl.unbind("SUPER + grave")
-hl.unbind("SUPER + SHIFT + grave")
-hl.unbind("SUPER + ESCAPE")
+-- The switcher owns Super+Tab, Super+` and Super+Escape. When it is disabled
+-- (disable-switcher.sh writes this marker) Omarchy's defaults stay in place.
+local state_home = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+local switcher_enabled = true
+do
+  local marker = io.open(state_home .. "/omackey/switcher-disabled", "r")
+  if marker then
+    marker:close()
+    switcher_enabled = false
+  end
+end
+
+if switcher_enabled then
+  hl.unbind("SUPER + TAB")
+  hl.unbind("SUPER + SHIFT + TAB")
+  hl.unbind("SUPER + grave")
+  hl.unbind("SUPER + SHIFT + grave")
+  hl.unbind("SUPER + ESCAPE")
+end
+
 hl.unbind("SUPER + Q")
 hl.unbind("SUPER + W")
 hl.unbind("SUPER + T")
@@ -131,6 +146,8 @@ o.bind("SUPER + F", "Find", send_shortcut_once("CTRL", "F"))
 o.bind("SUPER + S", "Save", send_shortcut_once("CTRL", "S"))
 o.bind("SUPER + O", "Open", send_shortcut_once("CTRL", "O"))
 o.bind("SUPER + P", "Print", send_shortcut_once("CTRL", "P"))
+o.bind("SUPER + ALT + T", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
+o.bind("SUPER + ALT + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 o.bind("SUPER + N", "New window", send_shortcut_once("CTRL", "N"))
 o.bind("SUPER + SHIFT + N", "New private window", send_shortcut_once("CTRL + SHIFT", "N"))
 o.bind("SUPER + R", "Reload", send_shortcut_once("CTRL", "R"))
@@ -150,97 +167,6 @@ o.bind("SUPER + SHIFT + RIGHT", "Select to end of line", send_shortcut_once("SHI
 o.bind("CTRL + RETURN", "Terminal", "omarchy-launch-terminal")
 o.bind("CTRL + SHIFT + RETURN", "Browser", "omarchy-launch-browser")
 
-local omackey = "omarchy-shell shell summon asaharan.omackey"
-
-local switcher_namespace = "macos-application-switcher"
-local switcher_layers = 0
-local switcher_active = false
-local pending_exit = nil
-
-local function reset_switcher_submap()
-  if hl.get_current_submap() == "omackey" then
-    hl.dispatch(hl.dsp.submap("reset"))
-  end
-end
-
-local function send_switcher_action(action)
-  hl.exec_cmd(omackey .. " '{\"action\":\"" .. action .. "\"}'")
-end
-
-local function open_switcher(action, scope)
-  return function()
-    switcher_active = true
-    pending_exit = nil
-
-    -- Install the compositor-side release handlers before starting the
-    -- asynchronous shell command, so even a very quick Super tap is observed.
-    hl.dispatch(hl.dsp.submap("omackey"))
-
-    local scope_json = scope and ',\"scope\":\"' .. scope .. '\"' or ""
-    hl.exec_cmd(omackey .. " '{\"action\":\"" .. action .. "\"" .. scope_json .. "}'")
-  end
-end
-
-local function exit_switcher(action)
-  return function()
-    -- Restore normal shortcuts synchronously. The shell IPC may take longer,
-    -- but the user must never remain trapped in the temporary submap.
-    reset_switcher_submap()
-
-    if not switcher_active then
-      return
-    end
-
-    if switcher_layers > 0 then
-      pending_exit = nil
-      send_switcher_action(action)
-    else
-      -- The release beat the asynchronous summon. Wait for the layer before
-      -- committing so the exit command cannot overtake the open command.
-      pending_exit = action
-    end
-  end
-end
-
-local commit_switcher = exit_switcher("commit")
-
--- Hyprland emits this raw event before keybind matching. Modifier-only release
--- binds are unreliable in Hyprland 0.55.3+, so observe the physical key state
--- directly. The event uses XKB keycodes (evdev keycode + 8): left/right Super
--- are 133/134, and wl_keyboard reports release as state 0.
-hl.on("input.keyboard.key", function(keycode, _, state)
-  if switcher_active and state == 0 and (keycode == 133 or keycode == 134) then
-    commit_switcher()
-  end
-end)
-
-hl.on("layer.opened", function(layer)
-  if layer.namespace == switcher_namespace then
-    switcher_layers = switcher_layers + 1
-
-    if pending_exit then
-      local action = pending_exit
-      pending_exit = nil
-      send_switcher_action(action)
-    end
-  end
-end)
-
-hl.on("layer.closed", function(layer)
-  if layer.namespace == switcher_namespace and switcher_layers > 0 then
-    switcher_layers = switcher_layers - 1
-    if switcher_layers == 0 then
-      switcher_active = false
-      pending_exit = nil
-      reset_switcher_submap()
-    end
-  end
-end)
-
-o.bind("SUPER + TAB", "Next window", open_switcher("forward"))
-o.bind("SUPER + SHIFT + TAB", "Previous window", open_switcher("reverse"))
-o.bind("SUPER + grave", "Next window in application", open_switcher("forward", "application"))
-o.bind("SUPER + SHIFT + grave", "Previous window in application", open_switcher("reverse", "application"))
 o.bind("SUPER + LEFT", "Start of line", send_shortcut_once("", "HOME"))
 o.bind("SUPER + RIGHT", "End of line", send_shortcut_once("", "END"))
 o.bind("SUPER + UP", "Focus on above window", hl.dsp.focus({ direction = "u" }))
@@ -250,37 +176,130 @@ o.bind("SUPER + SHIFT + RETURN", "Browser", "omarchy-launch-browser")
 o.bind("SUPER + mouse:272", "Move window", hl.dsp.window.drag(), { mouse = true })
 o.bind("SUPER + mouse:273", "Resize window", hl.dsp.window.resize(), { mouse = true })
 
-hl.define_submap("omackey", function()
-  -- Navigation stays in-process: these binds only keep Hyprland from running
-  -- the normal global actions while allowing the focused QML item to see keys.
-  o.bind("SUPER + TAB", "Next window", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + SHIFT + TAB", "Previous window", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + grave", "Next window in application", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + SHIFT + grave", "Previous window in application", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + LEFT", "Select window on left", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + RIGHT", "Select window on right", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + UP", "Select window above", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + DOWN", "Select window below", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + RETURN", "Open selected window", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + SHIFT + RETURN", "Open selected window", hl.dsp.no_op(), { non_consuming = true })
-  o.bind("SUPER + ESCAPE", "Cancel window switcher", exit_switcher("cancel"))
+if switcher_enabled then
+  local omackey = "omarchy-shell shell summon asaharan.omackey"
 
-  -- Retain compositor release binds as fallbacks. The raw keyboard listener
-  -- above is the primary path on Hyprland versions affected by the submap bug.
-  o.bind("SUPER + SUPER_L", nil, commit_switcher, { release = true })
-  o.bind("SUPER + SUPER_R", nil, commit_switcher, { release = true })
+  local switcher_namespace = "macos-application-switcher"
+  local switcher_layers = 0
+  local switcher_active = false
+  local pending_exit = nil
 
-  -- QML cannot cancel Hyprland's compositor-level mouse move/resize actions.
-  -- Mark these non-consuming so the button press/release still reaches the
-  -- focused QML surface (otherwise Hyprland's bind match swallows clicks on
-  -- switcher tiles entirely while Super is held).
-  o.bind("SUPER + mouse:272", nil, hl.dsp.no_op(), { mouse = true, non_consuming = true })
-  o.bind("SUPER + mouse:273", nil, hl.dsp.no_op(), { mouse = true, non_consuming = true })
-end)
+  local function reset_switcher_submap()
+    if hl.get_current_submap() == "omackey" then
+      hl.dispatch(hl.dsp.submap("reset"))
+    end
+  end
 
--- A configuration reload can recreate this module while the old switcher
--- submap is active. Recover it before accepting any new input.
-reset_switcher_submap()
+  local function send_switcher_action(action)
+    hl.exec_cmd(omackey .. " '{\"action\":\"" .. action .. "\"}'")
+  end
 
--- Omarchy normally opens its System menu with SUPER+ESCAPE.
-o.bind("SUPER + CTRL + ESCAPE", "System menu", "omarchy-menu toggle system")
+  local function open_switcher(action, scope)
+    return function()
+      switcher_active = true
+      pending_exit = nil
+
+      -- Install the compositor-side release handlers before starting the
+      -- asynchronous shell command, so even a very quick Super tap is observed.
+      hl.dispatch(hl.dsp.submap("omackey"))
+
+      local scope_json = scope and ',\"scope\":\"' .. scope .. '\"' or ""
+      hl.exec_cmd(omackey .. " '{\"action\":\"" .. action .. "\"" .. scope_json .. "}'")
+    end
+  end
+
+  local function exit_switcher(action)
+    return function()
+      -- Restore normal shortcuts synchronously. The shell IPC may take longer,
+      -- but the user must never remain trapped in the temporary submap.
+      reset_switcher_submap()
+
+      if not switcher_active then
+        return
+      end
+
+      if switcher_layers > 0 then
+        pending_exit = nil
+        send_switcher_action(action)
+      else
+        -- The release beat the asynchronous summon. Wait for the layer before
+        -- committing so the exit command cannot overtake the open command.
+        pending_exit = action
+      end
+    end
+  end
+
+  local commit_switcher = exit_switcher("commit")
+
+  -- Hyprland emits this raw event before keybind matching. Modifier-only release
+  -- binds are unreliable in Hyprland 0.55.3+, so observe the physical key state
+  -- directly. The event uses XKB keycodes (evdev keycode + 8): left/right Super
+  -- are 133/134, and wl_keyboard reports release as state 0.
+  hl.on("input.keyboard.key", function(keycode, _, state)
+    if switcher_active and state == 0 and (keycode == 133 or keycode == 134) then
+      commit_switcher()
+    end
+  end)
+
+  hl.on("layer.opened", function(layer)
+    if layer.namespace == switcher_namespace then
+      switcher_layers = switcher_layers + 1
+
+      if pending_exit then
+        local action = pending_exit
+        pending_exit = nil
+        send_switcher_action(action)
+      end
+    end
+  end)
+
+  hl.on("layer.closed", function(layer)
+    if layer.namespace == switcher_namespace and switcher_layers > 0 then
+      switcher_layers = switcher_layers - 1
+      if switcher_layers == 0 then
+        switcher_active = false
+        pending_exit = nil
+        reset_switcher_submap()
+      end
+    end
+  end)
+
+  o.bind("SUPER + TAB", "Next window", open_switcher("forward"))
+  o.bind("SUPER + SHIFT + TAB", "Previous window", open_switcher("reverse"))
+  o.bind("SUPER + grave", "Next window in application", open_switcher("forward", "application"))
+  o.bind("SUPER + SHIFT + grave", "Previous window in application", open_switcher("reverse", "application"))
+  hl.define_submap("omackey", function()
+    -- Navigation stays in-process: these binds only keep Hyprland from running
+    -- the normal global actions while allowing the focused QML item to see keys.
+    o.bind("SUPER + TAB", "Next window", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + SHIFT + TAB", "Previous window", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + grave", "Next window in application", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + SHIFT + grave", "Previous window in application", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + LEFT", "Select window on left", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + RIGHT", "Select window on right", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + UP", "Select window above", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + DOWN", "Select window below", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + RETURN", "Open selected window", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + SHIFT + RETURN", "Open selected window", hl.dsp.no_op(), { non_consuming = true })
+    o.bind("SUPER + ESCAPE", "Cancel window switcher", exit_switcher("cancel"))
+
+    -- Retain compositor release binds as fallbacks. The raw keyboard listener
+    -- above is the primary path on Hyprland versions affected by the submap bug.
+    o.bind("SUPER + SUPER_L", nil, commit_switcher, { release = true })
+    o.bind("SUPER + SUPER_R", nil, commit_switcher, { release = true })
+
+    -- QML cannot cancel Hyprland's compositor-level mouse move/resize actions.
+    -- Mark these non-consuming so the button press/release still reaches the
+    -- focused QML surface (otherwise Hyprland's bind match swallows clicks on
+    -- switcher tiles entirely while Super is held).
+    o.bind("SUPER + mouse:272", nil, hl.dsp.no_op(), { mouse = true, non_consuming = true })
+    o.bind("SUPER + mouse:273", nil, hl.dsp.no_op(), { mouse = true, non_consuming = true })
+  end)
+
+  -- A configuration reload can recreate this module while the old switcher
+  -- submap is active. Recover it before accepting any new input.
+  reset_switcher_submap()
+
+  -- Omarchy normally opens its System menu with SUPER+ESCAPE.
+  o.bind("SUPER + CTRL + ESCAPE", "System menu", "omarchy-menu toggle system")
+end

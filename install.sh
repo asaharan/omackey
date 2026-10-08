@@ -11,6 +11,8 @@ project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 plugin_dir="$config_home/omarchy/plugins/$plugin_id"
 hypr_dir="$config_home/hypr"
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/omackey"
+switcher_marker="$state_dir/switcher-disabled"
 
 enable_switcher=""
 case "${1:-}" in
@@ -134,6 +136,15 @@ rollback() {
   fi
   hyprctl reload >/dev/null 2>&1 || true
 }
+
+# The Lua module reads this marker to decide whether it should take over
+# Super+Tab / Super+` / Super+Escape from Omarchy.
+mkdir -p -- "$state_dir"
+if [[ "$enable_switcher" =~ ^[Yy]$ ]]; then
+  rm -f -- "$switcher_marker"
+else
+  : > "$switcher_marker"
+fi
 
 # Commit atomically: rename() replaces the destination in place and never
 # follows a symlink that might appear there, so this is safe even if the

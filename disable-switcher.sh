@@ -4,9 +4,6 @@ set -euo pipefail
 PATH=/usr/bin:/bin
 export PATH
 
-plugin_id="asaharan.omackey"
-
-omarchy plugin disable "$plugin_id" >/dev/null 2>&1 || true
-omarchy-shell shell rescanPlugins >/dev/null
-
-echo "Omackey switcher UI disabled. Mac key bindings remain active."
+project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+# Also restores Omarchy's Super+Tab / Super+` / Super+Escape bindings.
+exec /bin/bash "$project_dir/install.sh" --disable-switcher
