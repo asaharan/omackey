@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `Super+S` and the scratchpad toggle are no longer overridden; Omarchy's
+  `Super+S` toggles the scratchpad again, so `Super+S` no longer saves.
+- `Ctrl+Up` / `Ctrl+Down` focus the window above / below, and `Super+Up` /
+  `Super+Down` scroll to the top / bottom (`Ctrl+Home` / `Ctrl+End`, or
+  `Shift+Home` / `Shift+End` in windows tagged `terminal`).
+- Stopped redundantly rebinding `Super+Enter` and `Super+Shift+Enter`, which
+  match Omarchy's defaults.
+
 ## [0.1.7] - 2026-10-08
 
 ### Changed

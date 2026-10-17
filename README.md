@@ -25,12 +25,11 @@ On a Mac keyboard, **Cmd (⌘) is Super**. The shortcuts below use `Super`, the 
 | `Super+T` / `Super+W` | New tab / close in the focused app |
 | `Super+Shift+T` | Reopen a closed tab |
 | `Super+A` / `Super+Z` | Select all / undo |
-| `Super+F` / `Super+S` | Find / save |
+| `Super+F` | Find |
 | `Super+L` | Focus the location bar |
 | `Super+Tab` | Switch between windows with the overlay enabled |
 | `Super+Q` | Close the focused window |
 | `Super+Alt+T` | Toggle floating/tiling (moved from `Super+T`) |
-| `Super+Alt+`` ` ``  | Toggle the scratchpad (moved from `Super+S`) |
 
 Application shortcuts send their corresponding Linux key sequences; the focused app determines their behavior. For delete-to-start, Omackey sends `Ctrl+U` to windows tagged `terminal`, and `Shift+Home` followed by `Backspace` elsewhere. For move-by-word, Omackey sends `Alt+B` / `Alt+F` to windows tagged `terminal`, and `Ctrl+Left` / `Ctrl+Right` elsewhere. `Super+Q` closes the focused window; it does not quit every window belonging to an application.
 
@@ -44,17 +43,17 @@ Application shortcuts send their corresponding Linux key sequences; the focused 
 
 ## Window navigation
 
-- Press `Ctrl+Left` or `Ctrl+Right` to focus the window in that direction. This
+- Press `Ctrl+Left`, `Ctrl+Right`, `Ctrl+Up` or `Ctrl+Down` to focus the window in that direction. This
   also works across monitors and when full-width or fullscreen windows obscure
   other windows.
 - Press `Super+Left` or `Super+Right` to move to the start or end of a line.
 - Press `Super+Shift+Left` or `Super+Shift+Right` to select to the start or end of a line.
 - Press `Alt+Left` or `Alt+Right` to move by word.
-- Press `Super+Up` or `Super+Down` to focus the window in that direction.
+- Press `Super+Up` or `Super+Down` to scroll to the top or bottom (`Ctrl+Home` / `Ctrl+End`, or `Shift+Home` / `Shift+End` in windows tagged `terminal`).
 
 ## Application shortcuts
 
-- Use `Super+T`, `W`, `A`, `Z`, `F`, `S`, `O`, `P`, `N`, `R`, and `L`
+- Use `Super+T`, `W`, `A`, `Z`, `F`, `O`, `P`, `N`, `R`, and `L`
   for their familiar macOS-style application actions.
 - Use `Super+Shift+T` to reopen a closed tab, `Super+Shift+Z` to redo, and
   `Super+Shift+N` to open a private window.

@@ -31,7 +31,6 @@ hl.unbind("SUPER + Q")
 hl.unbind("SUPER + W")
 hl.unbind("SUPER + T")
 hl.unbind("SUPER + F")
-hl.unbind("SUPER + S")
 hl.unbind("SUPER + O")
 hl.unbind("SUPER + P")
 hl.unbind("SUPER + L")
@@ -41,17 +40,15 @@ hl.unbind("SUPER + SHIFT + N")
 hl.unbind("SUPER + SHIFT + G")
 hl.unbind("SUPER + LEFT")
 hl.unbind("SUPER + RIGHT")
-hl.unbind("SUPER + SHIFT + LEFT")
-hl.unbind("SUPER + SHIFT + RIGHT")
 hl.unbind("SUPER + UP")
 hl.unbind("SUPER + DOWN")
+hl.unbind("SUPER + SHIFT + LEFT")
+hl.unbind("SUPER + SHIFT + RIGHT")
 hl.unbind("ALT + LEFT")
 hl.unbind("ALT + RIGHT")
 hl.unbind("ALT + BACKSPACE")
 hl.unbind("ALT + SHIFT + LEFT")
 hl.unbind("ALT + SHIFT + RIGHT")
-hl.unbind("SUPER + RETURN")
-hl.unbind("SUPER + SHIFT + RETURN")
 hl.unbind("SUPER + mouse:272")
 hl.unbind("SUPER + mouse:273")
 
@@ -130,22 +127,38 @@ local function word_right()
   end
 end
 
+local function scroll_to_top()
+  if active_window_is_terminal() then
+    send_shortcut_once("SHIFT", "HOME")()
+  else
+    send_shortcut_once("CTRL", "HOME")()
+  end
+end
+
+local function scroll_to_bottom()
+  if active_window_is_terminal() then
+    send_shortcut_once("SHIFT", "END")()
+  else
+    send_shortcut_once("CTRL", "END")()
+  end
+end
+
 -- macOS-style window navigation and in-app shortcuts.
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 o.bind("SUPER + W", "Close in app", send_shortcut_once("CTRL", "W"))
 o.bind("CTRL + LEFT", "Focus on left window", hl.dsp.focus({ direction = "l" }))
 o.bind("CTRL + RIGHT", "Focus on right window", hl.dsp.focus({ direction = "r" }))
+o.bind("CTRL + UP", "Focus on above window", hl.dsp.focus({ direction = "u" }))
+o.bind("CTRL + DOWN", "Focus on below window", hl.dsp.focus({ direction = "d" }))
 o.bind("SUPER + T", "New tab", send_shortcut_once("CTRL", "T"))
 o.bind("SUPER + SHIFT + T", "Reopen closed tab", send_shortcut_once("CTRL + SHIFT", "T"))
 o.bind("SUPER + A", "Select all", send_shortcut_once("CTRL", "A"))
 o.bind("SUPER + Z", "Undo", send_shortcut_once("CTRL", "Z"))
 o.bind("SUPER + SHIFT + Z", "Redo", send_shortcut_once("CTRL + SHIFT", "Z"))
 o.bind("SUPER + F", "Find", send_shortcut_once("CTRL", "F"))
-o.bind("SUPER + S", "Save", send_shortcut_once("CTRL", "S"))
 o.bind("SUPER + O", "Open", send_shortcut_once("CTRL", "O"))
 o.bind("SUPER + P", "Print", send_shortcut_once("CTRL", "P"))
 o.bind("SUPER + ALT + T", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
-o.bind("SUPER + ALT + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 o.bind("SUPER + N", "New window", send_shortcut_once("CTRL", "N"))
 o.bind("SUPER + SHIFT + N", "New private window", send_shortcut_once("CTRL + SHIFT", "N"))
 o.bind("SUPER + R", "Reload", send_shortcut_once("CTRL", "R"))
@@ -165,10 +178,8 @@ o.bind("SUPER + SHIFT + RIGHT", "Select to end of line", send_shortcut_once("SHI
 
 o.bind("SUPER + LEFT", "Start of line", send_shortcut_once("", "HOME"))
 o.bind("SUPER + RIGHT", "End of line", send_shortcut_once("", "END"))
-o.bind("SUPER + UP", "Focus on above window", hl.dsp.focus({ direction = "u" }))
-o.bind("SUPER + DOWN", "Focus on below window", hl.dsp.focus({ direction = "d" }))
-o.bind("SUPER + RETURN", "Terminal", "omarchy-launch-terminal")
-o.bind("SUPER + SHIFT + RETURN", "Browser", "omarchy-launch-browser")
+o.bind("SUPER + UP", "Scroll to top", scroll_to_top)
+o.bind("SUPER + DOWN", "Scroll to bottom", scroll_to_bottom)
 o.bind("SUPER + mouse:272", "Move window", hl.dsp.window.drag(), { mouse = true })
 o.bind("SUPER + mouse:273", "Resize window", hl.dsp.window.resize(), { mouse = true })
 
